@@ -31,10 +31,17 @@
     padding:28px 16px 72px;min-width:0}
   @media(min-width:720px){.wrap{padding:40px 24px 96px}}
 
+  .topbar{display:flex;justify-content:flex-end;align-items:center;
+    margin:0 0 12px;min-height:44px}
+  .lang-switch{font-size:.95rem;font-weight:600;color:var(--steel);
+    text-decoration:none;padding:8px 2px;min-height:44px;display:inline-flex;
+    align-items:center}
+  .lang-switch:hover{text-decoration:underline;text-underline-offset:3px}
+
   .brand{margin:0 0 20px;color:var(--muted);font-size:1rem}
   .brand strong{color:var(--ink);font-weight:600}
   h1.title{margin:0 0 14px;font-size:2.15rem;font-weight:600;letter-spacing:-.02em;
-    color:var(--ink);max-width:20ch}
+    color:var(--ink);max-width:28ch}
   .stack{display:flex;flex-wrap:wrap;gap:8px 18px;margin:20px 0 22px;padding:0;list-style:none}
   .stack li{display:flex;align-items:center;gap:7px;font-size:.95rem;color:var(--muted)}
   .stack svg{width:21px;height:21px;flex:0 0 auto;fill:none;stroke:var(--steel);
@@ -47,7 +54,19 @@
     color:var(--steel);font-variant-numeric:tabular-nums}
   .hero-of{font-size:.42em;letter-spacing:-.02em;color:var(--ink);font-weight:500}
   .lede{max-width:62ch;margin:0 0 12px;font-size:1.125rem;color:var(--ink)}
-  .note,.synth{margin:0 0 8px;font-size:.95rem;color:var(--muted);max-width:68ch}
+  .howto{margin:0 0 18px;font-size:.95rem;color:var(--muted);max-width:68ch}
+  .hero-sub{margin:0 0 14px;font-size:1rem;color:var(--muted)}
+  .hero-sub b{color:var(--ink);font-weight:600;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .note{margin:0 0 8px;font-size:.95rem;color:var(--muted);max-width:68ch}
+  .outbound{margin:0 0 10px;padding:8px 10px;border-radius:8px;background:var(--steel-soft);
+    font-size:.9rem;color:var(--ink);max-width:56ch}
+  .outbound .cap{display:block;font-size:.75rem;font-weight:700;letter-spacing:.03em;
+    text-transform:uppercase;color:var(--steel);margin:0 0 2px}
+  .conf-label{font-family:var(--mono);font-size:.8rem;font-weight:600;color:var(--muted)}
+  .conf-label.unsure{color:var(--red)}
+  .conf-label.likely{color:var(--amber)}
+  .import-cta{margin:12px 0 0;font-size:1rem}
+  .import-cta a{font-weight:600}
   .actions{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 8px}
   button{font:600 1rem/1.2 var(--sans);min-height:44px;padding:10px 18px;
     border-radius:8px;cursor:pointer;border:1px solid transparent}
@@ -66,6 +85,10 @@
   .tally b{font-family:var(--mono);font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
   .tally .ok b{color:var(--green)}
   .tally .no b{color:var(--red)}
+  .tally-story{margin:10px 0 0;font-size:.95rem;color:var(--muted);max-width:70ch;
+    line-height:1.45}
+  .tally-story b{font-family:var(--mono);font-weight:600;color:var(--ink);
+    font-variant-numeric:tabular-nums}
 
   h2{font-size:1.25rem;margin:0 0 8px}
   h2 .n{font-family:var(--mono);font-weight:600;color:var(--muted);font-size:.9rem;
@@ -107,6 +130,14 @@
   .req .meta{display:block;margin-top:2px;font-size:.9rem;color:var(--muted)}
   .req .meta .mono{font-family:var(--mono);font-size:.85rem}
   time{font-family:var(--mono);font-size:.85rem;font-variant-numeric:tabular-nums}
+  .chan{
+    display:inline-block;font-family:var(--mono);font-size:.75rem;font-weight:600;
+    letter-spacing:.02em;padding:2px 8px;border-radius:999px;vertical-align:middle;
+    line-height:1.35}
+  .chan.form{background:var(--steel-soft);color:var(--steel)}
+  .chan.whatsapp{background:var(--green-soft);color:var(--green)}
+  .chan.instagram{background:var(--amber-soft);color:var(--amber)}
+  .chan.other{background:#eceff2;color:var(--muted)}
 
   summary.why-btn{
     cursor:pointer;list-style:none;display:inline-flex;align-items:center;
@@ -199,28 +230,29 @@
 <a class="skip" href="#main">Skip to the screening</a>
 <div class="wrap">
 <header>
+  <div class="topbar">
+    <a class="lang-switch" id="lang-switch" href="/es">Español</a>
+  </div>
   <h1 class="title">AI lead qualification and routing, built on n8n</h1>
-  <p class="lede" id="summary">40 inbound requests from a web form, WhatsApp and Instagram. Cheap rules close the obvious for free, the model reads only what survives, and every decision carries a quote from the request itself.</p>
+  <p class="lede" id="summary">These are 40 customer messages that arrived in one day at a fictional AC and small-repair shop - website form, WhatsApp, and Instagram. Open any one: that is the raw inbox. Cheap rules clear the obvious noise. A model reads only what survives and routes it. A person only sees what still needs a human.</p>
+  <p class="howto">Read top to bottom: the number a person never opens → where survivors went → who the rules closed (and why) → the raw pack.</p>
 
   <ul class="stack" aria-label="Built with">
     <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="4.5" cy="12" r="2.4"/><circle cx="12" cy="6.5" r="2.4"/><circle cx="12" cy="17.5" r="2.4"/><circle cx="19.5" cy="12" r="2.4"/><path d="M6.6 10.8 9.9 8.1M6.6 13.2l3.3 2.7M14.1 8.1l3.3 2.7M14.1 15.9l3.3-2.7"/></svg>n8n</li>
     <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.2a7.2 6.4 0 1 1 3.1 5.2L4 17.4l1-2.8a6.2 6.2 0 0 1-1-3.4Z"/><path d="M9.2 9.6c.5 2.3 2.4 4 4.7 4.5"/></svg>WhatsApp</li>
     <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.8" cy="7.2" r=".9" fill="currentColor" stroke="none"/></svg>Instagram</li>
     <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><circle cx="9" cy="11" r="2.1"/><path d="M5.9 16.1c.5-1.5 1.7-2.3 3.1-2.3s2.6.8 3.1 2.3M14.5 10h3.6M14.5 13h3.6"/></svg>CRM</li>
-    <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 13.9 9 19.8 10.9 13.9 12.8 12 18.6 10.1 12.8 4.2 10.9 10.1 9Z"/><path d="M18.4 16.2 19.2 18.4 21.4 19.2 19.2 20 18.4 22.2 17.6 20 15.4 19.2 17.6 18.4Z"/></svg>Gemini</li>
-    <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.4 3 5.6 13.4h5.2L10.2 21 18 10.6h-5.2Z"/></svg>FastAPI</li>
-    <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="12" width="17" height="7" rx="1.6"/><rect x="6.5" y="8.5" width="4" height="3.5"/><rect x="11.5" y="8.5" width="4" height="3.5"/><rect x="11.5" y="5" width="4" height="3.5"/></svg>Docker</li>
   </ul>
 
-  <p class="scene"><strong id="co">Bayline Comfort Co.</strong>, <span id="city">Port Meridian</span> - a made-up company standing in for any business that answers its own inbox. <span id="scene-text"></span></p>
+  <p class="scene"><strong id="co">Bayline Comfort Co.</strong>, <span id="city">Port Meridian</span> - fictional stand-in for any shop that answers its own inbox. <span id="scene-text">AC install and service, small plumbing and electrical.</span></p>
 
-  <p class="hero-label">A person reads</p>
+  <p class="hero-label">A person never opens</p>
   <p class="hero-count" aria-live="polite">
-    <span id="human">-</span><span class="hero-of"> of <span id="total">40</span></span>
+    <span id="skipped">-</span><span class="hero-of"> of <span id="total">40</span></span>
   </p>
+  <p class="hero-sub">Opens only <b id="human">-</b> - manager queue and disputed ones.</p>
 
-  <p class="note" id="source">This page shows a recorded screening. Pressing the button does not call the model.</p>
-  <p class="synth">Requests are synthetic. The company and the city are fictional. No real people.</p>
+  <p class="note" id="source">Recorded run on synthetic requests. Bayline and Port Meridian are fictional. Changing thresholds re-runs the rules; the model answers stay the recorded ones.</p>
   <div class="actions">
     <button class="primary" id="go" type="button">Run this pack</button>
     <button class="ghost" id="reset" type="button">Reset thresholds</button>
@@ -231,15 +263,17 @@
     <button class="try" type="button" data-try="min">take small jobs from $30</button>
     <button class="try" type="button" data-try="hours">cover two more districts</button>
     <button class="try" type="button" data-try="conf">work around the clock</button>
+    <button class="try" type="button" data-try="trust">trust the model less</button>
   </div>
   <p class="err" id="err" hidden></p>
   <div class="tally" id="tally" hidden></div>
+  <p class="tally-story" id="tally-story" hidden></p>
 </header>
 
 <main id="main">
 <section class="sec" aria-labelledby="th-h">
   <h2 id="th-h">Thresholds for the next run</h2>
-  <p class="hint">Change the area, the minimum, the shift or the confidence bar, then run again. Rules move with the new numbers. Model opinions stay the recorded ones.</p>
+  <p class="hint">Change the area, the minimum, the shift or the auto-route bar, then run again. Rules move with the new numbers. Model opinions stay the recorded ones.</p>
   <div class="thresholds">
     <fieldset class="areas">
       <legend>Service area</legend>
@@ -255,9 +289,9 @@
         <input id="work_hours_end" type="number" min="1" max="24" aria-label="Shift end hour">
       </span>
     </label>
-    <label>Confidence bar
+    <label>Minimum confidence to auto-route
       <input id="confidence_threshold" type="number" min="0" max="1" step="0.05">
-      <small class="field-note">In this pack the disputed ones come from quotes that were not in the text, so the bar barely moves them.</small>
+      <small class="field-note">Below this, the model’s pick goes to a person. Quote failures always go to a person, whatever the bar.</small>
     </label>
   </div>
 </section>
@@ -406,45 +440,310 @@
 </svg>
   </div>
   <p class="flow-cap">Export of a working n8n workflow, not a drawing of one.</p>
+  <p class="import-cta"><a href="https://github.com/uncleom/leads-demo/blob/main/workflow/lead-qualification.json">Import this workflow into your n8n</a> — JSON export, no black box.</p>
 </section>
 
 <p class="cost" id="cost" hidden></p>
 </main>
 
 <footer>
-  <p class="repo"><a href="https://github.com/uncleom/leads-demo">Source code and the n8n workflow export on GitHub</a> - the workflow imports into any n8n instance.</p>
-  <p>Requests are synthetic. Bayline Comfort Co. and Port Meridian are fictional. No real people in this pack.</p>
+  <p class="repo"><a href="https://github.com/uncleom/leads-demo">Source code and the n8n workflow export on GitHub</a> — the workflow imports into any n8n instance.</p>
 </footer>
 </div>
 <script>
 const $ = id => document.getElementById(id);
+const LANG = location.pathname.includes("/es") ? "es" : "en";
+document.documentElement.lang = LANG;
+
+const I18N = {
+  en: {
+    title: "AI lead qualification and routing, built on n8n",
+    summary: "These are 40 customer messages that arrived in one day at a fictional AC and small-repair shop — website form, WhatsApp, and Instagram. Open any one: that is the raw inbox. Cheap rules clear the obvious noise. A model reads only what survives and routes it. A person only sees what still needs a human.",
+    howto: "Read top to bottom: the number a person never opens → where survivors went → who the rules closed (and why) → the raw pack.",
+    sceneTail: "— fictional stand-in for any shop that answers its own inbox.",
+    sceneServices: "AC install and service, small plumbing and electrical.",
+    heroLabel: "A person never opens",
+    heroSubPrefix: "Opens only",
+    heroSubSuffix: "— manager queue and disputed ones.",
+    run: "Run this pack",
+    reset: "Reset thresholds",
+    tryLabel: "Try a change:",
+    tryArea: "serve Harbor District only",
+    tryMin: "take small jobs from $30",
+    tryHours: "cover two more districts",
+    tryConf: "work around the clock",
+    tryTrust: "trust the model less",
+    thTitle: "Thresholds for the next run",
+    thHint: "Change the area, the minimum, the shift or the auto-route bar, then run again. Rules move with the new numbers. Model opinions stay the recorded ones.",
+    areaLegend: "Service area",
+    minOrder: "Minimum order, USD",
+    workHours: "Work hours",
+    confLabel: "Minimum confidence to auto-route",
+    confNote: "Below this, the model’s pick goes to a person. Quote failures always go to a person, whatever the bar.",
+    basketsTitle: "Where the rest went",
+    basketsHint: "Survivors of the rules. The model sorted them. Disputed ones still need a person.",
+    closedTitle: "Closed by a rule",
+    closedHint: "A rule you can argue with and correct. Open a rule to see who it closed, then open a request for the sentence it used.",
+    packTitle: "The pack itself",
+    packHint: "Everything that came in, before any rule touched it. Open it and read the raw text - the decisions above are made from exactly this.",
+    packShow: "Show all inbound requests",
+    autoTitle: "The automation",
+    autoHint: "Scroll sideways on a narrow screen to read the whole path.",
+    flowCap: "Export of a working n8n workflow, not a drawing of one.",
+    importCta: "Import this workflow into your n8n — JSON export, no black box.",
+    footerRepo: "Source code and the n8n workflow export on GitHub — the workflow imports into any n8n instance.",
+    skip: "Skip to the screening",
+    sure: "Sure",
+    likely: "Likely",
+    unsure: "Unsure",
+    showWhy: "Show why we dropped this",
+    hideWhy: "Hide why we dropped this",
+    showQuote: "Show quote and message",
+    hideQuote: "Hide quote and message",
+    fullMsg: "Full message",
+    noSentence: "No sentence was stored for this drop.",
+    noQuote: "No quote was stored for this decision.",
+    outbound: "Outbound",
+    emptyDecline: "No extra declines from the model. Rule drops are listed above.",
+    emptyNone: "None this run.",
+    closedByRules: "closed by rules",
+    reachedModel: "reached the model",
+    personReads: "a person still reads",
+    disputed: "disputed",
+    withoutThis: "Without this:",
+    toRead: "to read. With this:",
+    bookThemselves: "book themselves",
+    waitlist: "waitlist",
+    needPerson: "need a person",
+    person: "person",
+    closed: "closed",
+    langSwitch: "Español",
+    langHref: "/es"
+  },
+  es: {
+    title: "Calificación y enrutado de leads con IA, sobre n8n",
+    summary: "Estos son 40 mensajes de clientes que llegaron en un día a un taller ficticio de aire acondicionado y reparaciones menores - formulario web, WhatsApp e Instagram. Abre cualquiera: ese es el buzón crudo. Reglas baratas limpian el ruido obvio. Un modelo lee solo lo que sobrevive y lo enruta. Una persona solo ve lo que aún necesita humano.",
+    howto: "Lee de arriba abajo: cuántos no abre una persona → a dónde fueron los que pasaron → a quién cerraron las reglas (y por qué) → el paquete crudo.",
+    sceneTail: "— empresa ficticia que representa a cualquier negocio que atiende su propio buzón.",
+    sceneServices: "Instalación y servicio de AC, plomería y electricidad menores.",
+    heroLabel: "Una persona no abre",
+    heroSubPrefix: "Abre solo",
+    heroSubSuffix: "— cola del gerente y los disputados.",
+    run: "Correr este paquete",
+    reset: "Restablecer umbrales",
+    tryLabel: "Prueba un cambio:",
+    tryArea: "solo Harbor District",
+    tryMin: "aceptar trabajos desde $30",
+    tryHours: "cubrir dos distritos más",
+    tryConf: "trabajar las 24 horas",
+    tryTrust: "confiar menos en el modelo",
+    thTitle: "Umbrales para la próxima corrida",
+    thHint: "Cambia la zona, el mínimo, el turno o la barra de auto-enrutado y vuelve a correr. Las reglas se mueven con los números. Las opiniones del modelo siguen siendo las grabadas.",
+    areaLegend: "Zona de servicio",
+    minOrder: "Pedido mínimo, USD",
+    workHours: "Horario laboral",
+    confLabel: "Confianza mínima para auto-enrutar",
+    confNote: "Por debajo de esto, la elección del modelo va a una persona. Si la cita no está en el texto, siempre va a una persona, pase lo que pase con la barra.",
+    basketsTitle: "A dónde fue el resto",
+    basketsHint: "Sobrevivientes de las reglas. El modelo los ordenó. Los disputados aún necesitan a una persona.",
+    closedTitle: "Cerrado por una regla",
+    closedHint: "Una regla que puedes discutir y corregir. Abre una regla para ver a quién cerró, luego abre una solicitud para la frase que usó.",
+    packTitle: "El paquete",
+    packHint: "Todo lo que entró, antes de que tocara ninguna regla. Ábrelo y lee el texto crudo: las decisiones de arriba salen exactamente de esto.",
+    packShow: "Mostrar todas las solicitudes",
+    autoTitle: "La automatización",
+    autoHint: "Desplaza de lado en una pantalla angosta para leer todo el camino.",
+    flowCap: "Exportación de un flujo n8n que funciona, no un dibujo.",
+    importCta: "Importa este flujo en tu n8n — exportación JSON, sin caja negra.",
+    footerRepo: "Código fuente y exportación del flujo n8n en GitHub — el flujo se importa en cualquier instancia de n8n.",
+    skip: "Saltar al cribado",
+    sure: "Seguro",
+    likely: "Probable",
+    unsure: "Inseguro",
+    showWhy: "Mostrar por qué lo descartamos",
+    hideWhy: "Ocultar por qué lo descartamos",
+    showQuote: "Mostrar cita y mensaje",
+    hideQuote: "Ocultar cita y mensaje",
+    fullMsg: "Mensaje completo",
+    noSentence: "No se guardó ninguna frase para este descarte.",
+    noQuote: "No se guardó ninguna cita para esta decisión.",
+    outbound: "Saliente",
+    emptyDecline: "Sin rechazos extra del modelo. Los descartes por regla están arriba.",
+    emptyNone: "Ninguno en esta corrida.",
+    closedByRules: "cerrados por reglas",
+    reachedModel: "llegaron al modelo",
+    personReads: "aún lee una persona",
+    disputed: "disputados",
+    withoutThis: "Sin esto:",
+    toRead: "para leer. Con esto:",
+    bookThemselves: "se agendan solos",
+    waitlist: "lista de espera",
+    needPerson: "necesitan persona",
+    person: "persona",
+    closed: "cerrado",
+    langSwitch: "English",
+    langHref: "/"
+  }
+};
+const t = (k) => (I18N[LANG] && I18N[LANG][k]) || I18N.en[k] || k;
+
 let DEFAULTS = null;
 let LAST = {dropped:null, to_model:null, human:null, disputed:null};
 const ALL_AREAS = ["Harbor District","Midtown","Lakeside","Oakridge","Cedar Falls","Millfield","Northbridge","Redwood Heights","South Pier"];
 let RULES = {};
 
-const BUCKET_META = {
+const BUCKET_META = LANG === "es" ? {
+  manager: {
+    title: "Al gerente",
+    sub: "Una persona llama, cotiza o agenda este.",
+    outbound: "Lo que recibe el gerente: ficha CRM · zona · tipo de trabajo — llamar y cotizar."
+  },
+  calendar: {
+    title: "Enlace de calendario",
+    sub: "Sale un enlace de reserva. Nadie lee el hilo.",
+    outbound: "Lo que sale: enlace de reserva para la zona del cliente, próximo hueco libre."
+  },
+  newsletter: {
+    title: "Boletín",
+    sub: "No es un trabajo hoy. Van a la lista.",
+    outbound: ""
+  },
+  decline: {
+    title: "Rechazo educado",
+    sub: "Cerrado por el modelo, con una cita del mensaje.",
+    outbound: ""
+  },
+  disputed: {
+    title: "Disputado, a una persona",
+    sub: "La confianza era baja, o la cita no estaba en el texto.",
+    outbound: ""
+  }
+} : {
   manager: {
     title: "To a manager",
-    sub: "A person calls, quotes or books this one."
+    sub: "A person calls, quotes or books this one.",
+    outbound: "What the manager gets: CRM card · area · job type — call and quote."
   },
   calendar: {
     title: "Calendar link",
-    sub: "A booking link goes out. Nobody reads the thread."
+    sub: "A booking link goes out. Nobody reads the thread.",
+    outbound: "What goes out: booking link for the customer’s area, next open slot."
   },
   newsletter: {
     title: "Newsletter",
-    sub: "Not a job today. They go on the list."
+    sub: "Not a job today. They go on the list.",
+    outbound: ""
   },
   decline: {
     title: "Polite decline",
-    sub: "Closed by the model, with a quote from the message."
+    sub: "Closed by the model, with a quote from the message.",
+    outbound: ""
   },
   disputed: {
     title: "Disputed, to a person",
-    sub: "Confidence was low, or the quote was not in the text."
+    sub: "Confidence was low, or the quote was not in the text.",
+    outbound: ""
   }
 };
+
+function applyStaticI18n(){
+  document.title = LANG === "es"
+    ? "Calificación de leads con IA en n8n - demo en vivo"
+    : "AI lead qualification and routing on n8n - live demo";
+  const skip = document.querySelector(".skip");
+  if(skip) skip.textContent = t("skip");
+  const h1 = document.querySelector("h1.title");
+  if(h1) h1.textContent = t("title");
+  if($("summary")) $("summary").textContent = t("summary");
+  const howto = document.querySelector(".howto");
+  if(howto) howto.textContent = t("howto");
+  const scene = document.querySelector(".scene");
+  if(scene){
+    // Keep company/city nodes; rebuild the rest.
+    const co = $("co")?.textContent || "Bayline Comfort Co.";
+    const city = $("city")?.textContent || "Port Meridian";
+    scene.innerHTML = `<strong id="co">${esc(co)}</strong>, <span id="city">${esc(city)}</span> ${esc(t("sceneTail"))} <span id="scene-text">${esc(t("sceneServices"))}</span>`;
+  }
+  const heroLabel = document.querySelector(".hero-label");
+  if(heroLabel) heroLabel.textContent = t("heroLabel");
+  const heroSub = document.querySelector(".hero-sub");
+  if(heroSub) heroSub.innerHTML = `${esc(t("heroSubPrefix"))} <b id="human">-</b> ${esc(t("heroSubSuffix"))}`;
+  if($("go")) $("go").textContent = t("run");
+  if($("reset")) $("reset").textContent = t("reset");
+  const tryLabel = document.querySelector(".tries-label");
+  if(tryLabel) tryLabel.textContent = t("tryLabel");
+  const tryMap = {area:"tryArea", min:"tryMin", hours:"tryHours", conf:"tryConf", trust:"tryTrust"};
+  document.querySelectorAll(".try").forEach(btn => {
+    const key = tryMap[btn.dataset.try];
+    if(key) btn.textContent = t(key);
+  });
+  if($("th-h")) $("th-h").textContent = t("thTitle");
+  const thHint = document.querySelector("#th-h + .hint");
+  if(thHint) thHint.textContent = t("thHint");
+  const legend = document.querySelector(".areas legend");
+  if(legend) legend.textContent = t("areaLegend");
+  const labels = document.querySelectorAll(".thresholds > label");
+  // Minimum order, Work hours, Confidence — order in DOM
+  if(labels[0]) labels[0].childNodes[0].textContent = t("minOrder") + "\n      ";
+  // rebuild label texts more safely:
+  const minLab = document.querySelector("label:has(#min_order_usd)");
+  if(minLab){
+    const input = minLab.querySelector("input");
+    minLab.textContent = "";
+    minLab.append(t("minOrder"), input);
+  }
+  const hoursLab = document.querySelector("label.hours");
+  if(hoursLab){
+    const row = hoursLab.querySelector(".hours-row");
+    hoursLab.textContent = "";
+    hoursLab.append(t("workHours"), row);
+  }
+  const confLab = document.querySelector("label:has(#confidence_threshold)");
+  if(confLab){
+    const input = confLab.querySelector("input");
+    const note = confLab.querySelector("small");
+    confLab.textContent = "";
+    confLab.append(t("confLabel"), input);
+    if(note){ note.textContent = t("confNote"); confLab.append(note); }
+  }
+  if($("baskets-h")) $("baskets-h").textContent = t("basketsTitle");
+  const bHint = document.querySelector("#baskets-h + .hint");
+  if(bHint) bHint.textContent = t("basketsHint");
+  if($("closed-h")){
+    const n = $("closed-n");
+    $("closed-h").textContent = t("closedTitle") + " ";
+    if(n) $("closed-h").appendChild(n);
+  }
+  const cHint = document.querySelector("#closed-h + .hint");
+  if(cHint) cHint.textContent = t("closedHint");
+  if($("pack-h")){
+    const n = $("pack-n");
+    $("pack-h").textContent = t("packTitle") + " ";
+    if(n) $("pack-h").appendChild(n);
+  }
+  const pHint = document.querySelector("#pack-h + .hint");
+  if(pHint) pHint.textContent = t("packHint");
+  const packSum = document.querySelector(".pack > summary");
+  if(packSum) packSum.textContent = t("packShow");
+  if($("flow-h")) $("flow-h").textContent = t("autoTitle");
+  const aHint = document.querySelector("#flow-h + .hint");
+  if(aHint) aHint.textContent = t("autoHint");
+  const flowCap = document.querySelector(".flow-cap");
+  if(flowCap) flowCap.textContent = t("flowCap");
+  const importCta = document.querySelector(".import-cta");
+  if(importCta){
+    importCta.innerHTML = `<a href="https://github.com/uncleom/leads-demo/blob/main/workflow/lead-qualification.json">${esc(t("importCta").split(" — ")[0])}</a> — ${esc(t("importCta").split(" — ").slice(1).join(" — "))}`;
+  }
+  const repo = document.querySelector("footer .repo");
+  if(repo){
+    repo.innerHTML = `<a href="https://github.com/uncleom/leads-demo">${esc(t("footerRepo").split(" — ")[0])}</a> — ${esc(t("footerRepo").split(" — ").slice(1).join(" — "))}`;
+  }
+  const lang = $("lang-switch");
+  if(lang){
+    lang.href = t("langHref");
+    lang.textContent = t("langSwitch");
+  }
+}
 
 function csv(s){
   return (s||"").split(",").map(x=>x.trim()).filter(Boolean);
@@ -492,20 +791,45 @@ function modelDeclines(rows){
   return (rows||[]).filter(r => !r.rule && (r.bucket==="decline" || r.decision==="decline"));
 }
 
+function confLabel(confidence){
+  if(confidence == null || Number.isNaN(Number(confidence))) return "";
+  const c = Number(confidence);
+  const pct = Math.round(c * 100);
+  if(c >= 0.9) return `<span class="conf-label">${esc(t("sure"))} (${pct}%)</span>`;
+  if(c >= 0.7) return `<span class="conf-label likely">${esc(t("likely"))} (${pct}%)</span>`;
+  return `<span class="conf-label unsure">${esc(t("unsure"))} (${pct}%)</span>`;
+}
+
+function channelPill(channel){
+  const raw = String(channel || "").trim();
+  const key = raw.toLowerCase();
+  const cls = (key === "form" || key === "whatsapp" || key === "instagram")
+    ? key
+    : "other";
+  const label = raw || "—";
+  return `<span class="chan ${cls}">${esc(label)}</span>`;
+}
+
 function whyPanel(row, kind){
-  const ruleId = row.rule ? `<p class="rule-name">${esc(row.rule)}</p>` : `<p class="rule-name">model</p>`;
   const specific = row.reason || row.rule_label || "";
-  const label = specific ? `<p class="why-reason">${esc(specific)}</p>` : "";
+  // For survivors the reason already sits above the button; do not repeat it.
+  const label = (kind === "rule" && specific)
+    ? `<p class="why-reason">${esc(specific)}</p>`
+    : "";
   const quote = row.quote
     ? `<blockquote class="quote">${esc(row.quote)}</blockquote>`
-    : `<p class="why-reason">No sentence was stored for this drop.</p>`;
+    : (kind === "rule"
+      ? `<p class="why-reason">${esc(t("noSentence"))}</p>`
+      : `<p class="why-reason">${esc(t("noQuote"))}</p>`);
   const full = row.body
-    ? `<details class="full"><summary>Full message</summary><p>${esc(row.body)}</p></details>`
+    ? `<details class="full"><summary>${esc(t("fullMsg"))}</summary><p>${esc(row.body)}</p></details>`
     : "";
+  const shut = kind === "rule" ? t("showWhy") : t("showQuote");
+  const open = kind === "rule" ? t("hideWhy") : t("hideQuote");
   return `<details>
-    <summary class="why-btn"><span class="shut">Show why we dropped this</span><span class="open">Hide why we dropped this</span></summary>
+    <summary class="why-btn"><span class="shut">${esc(shut)}</span><span class="open">${esc(open)}</span></summary>
     <div class="why-panel ${kind}">
-      ${ruleId}${label}${quote}${full}
+      ${label}${quote}${full}
     </div>
   </details>`;
 }
@@ -514,7 +838,7 @@ function reqRow(row, withWhy, kind){
   const area = (row.client && row.client.area) || "no area";
   return `<article class="req">
     <div class="who">${esc(row.name||"Unknown")}</div>
-    <span class="meta"><span class="mono">${esc(row.channel||"")}</span> · <time datetime="${esc(row.time||"")}">${esc(fmtTime(row.time))}</time> · ${esc(area)}</span>
+    <span class="meta">${channelPill(row.channel)} · <time datetime="${esc(row.time||"")}">${esc(fmtTime(row.time))}</time> · ${esc(area)}</span>
     ${withWhy ? whyPanel(row, kind) : (row.quote ? `<blockquote class="quote" style="margin-top:8px">${esc(row.quote)}</blockquote>` : "")}
   </article>`;
 }
@@ -522,14 +846,14 @@ function reqRow(row, withWhy, kind){
 function miniRow(row){
   const area = (row.client && row.client.area) || "no area";
   const conf = (row.confidence!=null && row.layer==="model")
-    ? ` · <span class="mono">${Number(row.confidence).toFixed(2)}</span>`
+    ? ` · ${confLabel(row.confidence)}`
     : "";
   const extra = row.reason ? `<p class="clip">${esc(row.reason)}</p>` : "";
-  const quote = row.quote ? `<p class="clip">${esc(row.quote)}</p>` : "";
   return `<article class="mini">
     <div class="who">${esc(row.name||"Unknown")}</div>
-    <span class="meta"><span class="mono">${esc(row.channel||"")}</span> · <time datetime="${esc(row.time||"")}">${esc(fmtTime(row.time))}</time> · ${esc(area)}${conf}</span>
-    ${extra}${row.reason ? "" : quote}
+    <span class="meta">${channelPill(row.channel)} · <time datetime="${esc(row.time||"")}">${esc(fmtTime(row.time))}</time> · ${esc(area)}${conf}</span>
+    ${extra}
+    ${whyPanel(row, "model")}
   </article>`;
 }
 
@@ -565,17 +889,21 @@ function paintBaskets(buckets){
     const cls = k==="disputed" ? "basket disputed" : "basket";
     const body = rows.length
       ? rows.map(r => k==="decline" ? reqRow(r, true, "model") : miniRow(r)).join("")
-      : `<p class="empty">${k==="decline" ? "No extra declines from the model. Rule drops are listed above." : "None this run."}</p>`;
+      : `<p class="empty">${esc(k==="decline" ? t("emptyDecline") : t("emptyNone"))}</p>`;
     const count = k==="decline"
       ? (buckets.decline||[]).length
       : rows.length;
-    const mark = k==="disputed" ? `<span class="mark model">person</span>`
-      : k==="manager" ? `<span class="mark pass">person</span>`
-      : k==="decline" ? `<span class="mark drop">closed</span>`
+    const outbound = (meta.outbound && rows.length)
+      ? `<p class="outbound"><span class="cap">${esc(t("outbound"))}</span>${esc(meta.outbound)}</p>`
+      : "";
+    const mark = k==="disputed" ? `<span class="mark model">${esc(t("person"))}</span>`
+      : k==="manager" ? `<span class="mark pass">${esc(t("person"))}</span>`
+      : k==="decline" ? `<span class="mark drop">${esc(t("closed"))}</span>`
       : "";
     return `<section class="${cls}">
       <h3>${esc(meta.title)} <span class="n">${k==="decline" ? rows.length : count}</span>${mark}</h3>
       <p class="sub">${esc(meta.sub)}</p>
+      ${outbound}
       ${body}
     </section>`;
   }).join("");
@@ -586,16 +914,26 @@ function paintHero(d){
   const buckets = d.buckets||{};
   const total = f.in || 40;
   const human = humanOf(buckets);
+  const skipped = Math.max(0, total - human);
+  const cal = (buckets.calendar||[]).length;
+  const news = (buckets.newsletter||[]).length;
+  $("skipped").textContent = String(skipped);
   $("human").textContent = String(human);
   $("total").textContent = String(total);
   $("tally").hidden = false;
   const delta = (now, was) => (was === null || now === was) ? ""
     : ` <i class="delta">${now > was ? "+" : ""}${now - was}</i>`;
   $("tally").innerHTML =
-    `<span class="no"><b>${f.dropped||0}</b> closed by rules${delta(f.dropped||0, LAST.dropped)}</span>`+
-    `<span class="ok"><b>${f.to_model||0}</b> reached the model${delta(f.to_model||0, LAST.to_model)}</span>`+
-    `<span><b>${human}</b> a person still reads${delta(human, LAST.human)}</span>`+
-    `<span><b>${(buckets.disputed||[]).length}</b> disputed${delta((buckets.disputed||[]).length, LAST.disputed)}</span>`;
+    `<span class="no"><b>${f.dropped||0}</b> ${esc(t("closedByRules"))}${delta(f.dropped||0, LAST.dropped)}</span>`+
+    `<span class="ok"><b>${f.to_model||0}</b> ${esc(t("reachedModel"))}${delta(f.to_model||0, LAST.to_model)}</span>`+
+    `<span><b>${human}</b> ${esc(t("personReads"))}${delta(human, LAST.human)}</span>`+
+    `<span><b>${(buckets.disputed||[]).length}</b> ${esc(t("disputed"))}${delta((buckets.disputed||[]).length, LAST.disputed)}</span>`;
+  const story = $("tally-story");
+  if(story){
+    story.hidden = false;
+    story.innerHTML =
+      `${esc(t("withoutThis"))} <b>${total}</b> ${esc(t("toRead"))} <b>${f.dropped||0}</b> ${esc(t("closedByRules"))} · <b>${cal}</b> ${esc(t("bookThemselves"))} · <b>${news}</b> ${esc(t("waitlist"))} · <b>${human}</b> ${esc(t("needPerson"))}.`;
+  }
   LAST = {dropped: f.dropped||0, to_model: f.to_model||0, human, disputed: (buckets.disputed||[]).length};
   if(d.source && d.source.message){
     $("source").textContent = d.source.message;
@@ -623,7 +961,7 @@ async function run(){
   try{
     const r = await fetch("/run", {
       method:"POST", headers:{"content-type":"application/json"},
-      body: JSON.stringify({criteria: criteriaFromForm()})
+      body: JSON.stringify({criteria: criteriaFromForm(), lang: LANG})
     });
     const text = await r.text();
     if(looksLikeTrace(text)){
@@ -658,7 +996,11 @@ async function run(){
 }
 
 $("go").onclick = run;
-$("reset").onclick = () => { if(DEFAULTS) fillForm(DEFAULTS); };
+$("reset").onclick = () => {
+  if(!DEFAULTS) return;
+  fillForm(DEFAULTS);
+  run();
+};
 
 // Готовые опыты: подставить настройку и сразу прогнать, чтобы разница была видна,
 // а не выясняться подбором.
@@ -666,7 +1008,9 @@ const TRIES = {
   area:  c => ({...c, service_area: ["Harbor District"]}),
   min:   c => ({...c, min_order_usd: 30}),
   hours: c => ({...c, service_area: [...new Set([...(c.service_area||[]), "Northbridge", "Cedar Falls"])]}),
-  conf:  c => ({...c, work_hours_start: 0, work_hours_end: 24})
+  conf:  c => ({...c, work_hours_start: 0, work_hours_end: 24}),
+  // 0.96 catches the 0.95 survivors in this pack; 0.95 would not (gate is strict <).
+  trust: c => ({...c, confidence_threshold: 0.96})
 };
 document.querySelectorAll(".try").forEach(btn => {
   btn.onclick = () => {
@@ -675,7 +1019,8 @@ document.querySelectorAll(".try").forEach(btn => {
   };
 });
 
-fetch("/boot").then(r=>r.json()).then(d=>{
+applyStaticI18n();
+fetch("/boot?lang=" + encodeURIComponent(LANG)).then(r=>r.json()).then(d=>{
   DEFAULTS = d.criteria;
   RULES = d.rules || {};
   const biz = d.business || {};
@@ -683,18 +1028,20 @@ fetch("/boot").then(r=>r.json()).then(d=>{
     $("pack-n").textContent = "(" + d.requests.length + ")";
     $("pack-list").innerHTML = d.requests.map(r => `
       <article class="pack-row">
-        <p class="pack-meta"><span class="mono">${esc(r.time||"")}</span> · ${esc(r.channel||"")} · <b>${esc(r.name||"")}</b>${r.client && r.client.area ? " · " + esc(r.client.area) : ""}</p>
+        <p class="pack-meta"><span class="mono">${esc(r.time||"")}</span> · ${channelPill(r.channel)} · <b>${esc(r.name||"")}</b>${r.client && r.client.area ? " · " + esc(r.client.area) : ""}</p>
         <p class="pack-text">${esc(r.text||"")}</p>
       </article>`).join("");
   }
   if(biz.company) $("co").textContent = biz.company;
   if(biz.city) $("city").textContent = biz.city;
-  if(biz.summary) $("scene-text").textContent = biz.summary;
+  // Scene services come from i18n; keep company/city from boot.
   fillForm(d.criteria);
   return run();
 }).catch(()=>{
   $("err").hidden = false;
-  $("err").textContent = "The page could not load the pack.";
+  $("err").textContent = LANG === "es"
+    ? "La página no pudo cargar el paquete."
+    : "The page could not load the pack.";
 });
 </script>
 </body>

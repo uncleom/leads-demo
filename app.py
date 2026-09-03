@@ -50,6 +50,25 @@ BUSINESS = json.loads((ROOT / "data/business.json").read_text())
 REQUESTS = json.loads((ROOT / "data/requests.json").read_text())
 REQ_BY_ID = {r["id"]: r for r in REQUESTS}
 DEFAULT_CRITERIA = dict(BUSINESS["criteria"])
+ES_OVERLAY_PATH = ROOT / "data/es_overlay.json"
+ES_OVERLAY = (
+    json.loads(ES_OVERLAY_PATH.read_text(encoding="utf-8"))
+    if ES_OVERLAY_PATH.exists()
+    else {}
+)
+GATE_REASONS_ES = {
+    "Model cited a phrase that is not in the request": (
+        "El modelo citó una frase que no está en el mensaje"
+    ),
+    "Model was not sure": "El modelo no estaba seguro",
+    "Needs a person": "Necesita a una persona",
+    "Survived the rules, waiting for the model.": (
+        "Pasó las reglas, esperando al modelo."
+    ),
+    "No sentence was stored for this drop.": (
+        "No se guardó ninguna frase para este descarte."
+    ),
+}
 
 app = FastAPI()
 _client_cache: dict[str, object] = {}
@@ -627,6 +646,79 @@ class Criteria(BaseModel):
 class RunBody(BaseModel):
     criteria: Criteria | None = None
     with_model: bool = False  # ignored: /run never calls the model
+    lang: str = "en"
+
+
+def _translate_gate_reason(reason: str) -> str:
+    if reason in GATE_REASONS_ES:
+        return GATE_REASONS_ES[reason]
+    # Confidence 0.40 is below the 0.70 threshold
+    m = re.match(
+        r"Confidence ([0-9.]+) is below the ([0-9.]+) threshold", reason or ""
+    )
+    if m:
+        return (
+            f"La confianza {m.group(1)} está por debajo del umbral {m.group(2)}"
+        )
+    return reason
+
+
+def apply_es_overlay(out: dict) -> dict:
+    """Mechanics stay on the English pack; only display strings switch to Spanish."""
+    if not ES_OVERLAY:
+        return out
+    reqs = ES_OVERLAY.get("requests") or {}
+    jud = ES_OVERLAY.get("judgments") or {}
+    labels = ES_OVERLAY.get("rule_labels") or {}
+    mech_reasons = ES_OVERLAY.get("mechanical_reasons") or {}
+
+    def paint(row: dict) -> dict:
+        rid = row.get("id")
+        es_text = (reqs.get(rid) or {}).get("text")
+        es_j = jud.get(rid) or {}
+        row = dict(row)
+        if es_text:
+            row["body"] = es_text
+        if row.get("rule"):
+            if row["rule"] in labels:
+                row["rule_label"] = labels[row["rule"]]
+            if row["rule"] in mech_reasons:
+                row["reason"] = mech_reasons[row["rule"]]
+            q = es_j.get("quote") or ""
+            if q and es_text and q in es_text:
+                row["quote"] = q
+            elif es_text and row.get("quote"):
+                # Fall back: keep area token if it still appears in the ES body.
+                token = str(row["quote"])
+                row["quote"] = token if token in es_text else (es_j.get("quote") or token)
+        else:
+            raw_reason = str(row.get("reason") or "")
+            if raw_reason.startswith(("Model cited", "Model was", "Needs a", "Confidence ")):
+                row["reason"] = _translate_gate_reason(raw_reason)
+            elif es_j.get("reason"):
+                row["reason"] = es_j["reason"]
+            q = es_j.get("quote") or ""
+            if q and es_text and q in es_text:
+                row["quote"] = q
+        return row
+
+    out = dict(out)
+    out["structured"] = [paint(r) for r in out.get("structured") or []]
+    out["naive"] = [paint(r) for r in out.get("naive") or []]
+    buckets = {}
+    for key, rows in (out.get("buckets") or {}).items():
+        buckets[key] = [paint(r) for r in rows]
+    out["buckets"] = buckets
+    src = dict(out.get("source") or {})
+    when = _pretty_when(str(src.get("recorded_at") or ""))
+    src["message"] = (
+        f"Corrida grabada del {when} con solicitudes sintéticas. Bayline y Port "
+        "Meridian son ficticios. El botón no llama al modelo. Cambiar umbrales "
+        "vuelve a correr las reglas; las opiniones del modelo siguen siendo las "
+        "grabadas."
+    )
+    out["source"] = src
+    return out
 
 
 def _usage(parts: list[dict]) -> dict:
@@ -675,10 +767,10 @@ def _source(rec: dict) -> dict:
         "recorded_at": rec.get("recorded_at") or "",
         "model": rec.get("model") or CHAT_MODEL,
         "message": (
-            f"Recorded screening from {when}. Pressing the button does not call "
-            "the model - a public page cannot spend a live quota on every visitor. "
-            "Change a threshold and the rules still move; the model opinions stay "
-            "the recorded ones."
+            f"Recorded run from {when} on synthetic requests. Bayline and Port "
+            "Meridian are fictional. Pressing the button does not call the model. "
+            "Changing thresholds re-runs the rules; the model answers stay the "
+            "recorded ones."
         ),
     }
 
@@ -864,16 +956,27 @@ def record_judgments(*, force: bool = False) -> None:
 
 
 @app.get("/boot")
-def boot():
+def boot(lang: str = "en"):
+    lang = "es" if (lang or "").lower().startswith("es") else "en"
+    requests = REQUESTS
+    rules = RULE_LABELS
+    if lang == "es" and ES_OVERLAY:
+        rules = ES_OVERLAY.get("rule_labels") or RULE_LABELS
+        overlay_reqs = ES_OVERLAY.get("requests") or {}
+        requests = [
+            {**r, "text": (overlay_reqs.get(r["id"]) or {}).get("text", r["text"])}
+            for r in REQUESTS
+        ]
     return {
         "business": {
             k: BUSINESS[k] for k in ("company", "title", "summary", "city")
             if k in BUSINESS
         },
         "criteria": DEFAULT_CRITERIA,
-        "requests": REQUESTS,
-        "rules": RULE_LABELS,
+        "requests": requests,
+        "rules": rules,
         "buckets": list(BUCKETS),
+        "lang": lang,
     }
 
 
@@ -899,12 +1002,26 @@ def run(body: RunBody):
             status_code=503,
             content={"error": "no_recording", "message": MSG_NO_RECORDING},
         )
+    lang = "es" if (body.lang or "").lower().startswith("es") else "en"
+    if lang == "es":
+        out = apply_es_overlay(out)
+    out["lang"] = lang
     return out
+
+
+def _index_html() -> str:
+    return (ROOT / "static/index.html").read_text(encoding="utf-8")
 
 
 @app.get("/")
 def index():
-    return HTMLResponse((ROOT / "static/index.html").read_text(encoding="utf-8"))
+    return HTMLResponse(_index_html())
+
+
+@app.get("/es")
+@app.get("/es/")
+def index_es():
+    return HTMLResponse(_index_html())
 
 
 # --- Selftest: mechanics, not a single model call --------------------------------
