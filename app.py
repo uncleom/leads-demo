@@ -37,8 +37,10 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 ROOT = pathlib.Path(__file__).resolve().parent
 RECORDING_PATH = ROOT / "data/judgments.json"
-ACCOUNTS = pathlib.Path.home() / "Projects/.tools/gen-image/accounts.json"
-ENV_FILE = pathlib.Path.home() / "Projects/.env.local"
+# Where recording credentials come from. Both are optional: the page serves the
+# recorded run and never calls a model, so a deployment needs neither.
+ACCOUNTS = pathlib.Path(os.environ.get("VERTEX_ACCOUNTS_FILE", "")) if os.environ.get("VERTEX_ACCOUNTS_FILE") else pathlib.Path.home() / ".config/lead-demo/accounts.json"
+ENV_FILE = pathlib.Path(os.environ.get("ENV_FILE", "")) if os.environ.get("ENV_FILE") else pathlib.Path.home() / ".config/lead-demo/.env"
 CHAT_MODEL = os.environ.get("CHAT_MODEL", "gemini-2.5-flash")
 # Gemini 2.5 Flash list price, USD per token. Source: ai.google.dev/gemini-api/docs/pricing,
 # checked 2026-08-23 ($0.30 per 1M input, $2.50 per 1M output).
@@ -365,7 +367,7 @@ def screen_all(reqs: list[dict], criteria: dict) -> list[dict]:
     return [by_id[r["id"]] for r in reqs]
 
 
-# --- Provider: Vertex trial, then GEMINI_API_KEY_FREE. Do not touch OpenRouter ---
+# --- Recording provider: Vertex first, then a plain Gemini API key ---
 def _env(name: str) -> str | None:
     if os.environ.get(name):
         return os.environ[name]
@@ -511,7 +513,7 @@ _free_lock = threading.Lock()
 
 
 def free_client():
-    """Last free rung: GEMINI_API_KEY_FREE. We do not touch paid OpenRouter."""
+    """Fallback rung: a plain Gemini API key when Vertex is out of quota."""
     if "free" in _client_cache:
         return _client_cache["free"]
     with _free_lock:
