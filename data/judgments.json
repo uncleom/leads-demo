@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-09-03T18:33:46Z",
+  "recorded_at": "2026-09-03T18:37:58Z",
   "model": "gemini-2.5-flash",
   "judgments": {
     "r01": {
@@ -331,6 +331,76 @@
       "tokens_out": 73,
       "cost": 0.00031420000000000005,
       "seconds": 3.6
+    },
+    "r34": {
+      "decision": "decline",
+      "quote": "Can you do $35?",
+      "reason": "The requested price of $35 is below the company's minimum order of $75.",
+      "confidence": 1.0,
+      "tokens_in": 433,
+      "tokens_out": 60,
+      "cost": 0.00027990000000000003,
+      "seconds": 4.6
+    },
+    "r35": {
+      "decision": "uncertain",
+      "quote": "hello are you there",
+      "reason": "The request text is too vague to determine the nature of the service needed or if it falls within the company's offerings.",
+      "confidence": 1.0,
+      "tokens_in": 420,
+      "tokens_out": 62,
+      "cost": 0.000281,
+      "seconds": 3.4
+    },
+    "r36": {
+      "decision": "decline",
+      "quote": "Full kitchen remodel quote - cabinets, counters, flooring.",
+      "reason": "The requested service for a full kitchen remodel, including cabinets, counters, and flooring, is outside the scope of services offered by Bayline Comfort Co.",
+      "confidence": 1.0,
+      "tokens_in": 428,
+      "tokens_out": 74,
+      "cost": 0.00031340000000000003,
+      "seconds": 4.4
+    },
+    "r37": {
+      "decision": "calendar",
+      "quote": "New washer delivered, need hookup and also the hallway outlet sparks when I plug anything in. Can you do both on one visit?",
+      "reason": "The request clearly outlines two minor services (appliance hookup and minor electrical repair) that fall within the company's offerings and can be self-booked.",
+      "confidence": 1.0,
+      "tokens_in": 446,
+      "tokens_out": 91,
+      "cost": 0.00036130000000000005,
+      "seconds": 5.1
+    },
+    "r38": {
+      "decision": "manager",
+      "quote": "Oakridge clinic drip and mold smell",
+      "reason": "The request involves a commercial property and a mold smell, which requires a manager's assessment.",
+      "confidence": 1.0,
+      "tokens_in": 435,
+      "tokens_out": 59,
+      "cost": 0.00027800000000000004,
+      "seconds": 4.6
+    },
+    "r39": {
+      "decision": "calendar",
+      "quote": "Lakeside condo AC not cooling. Sunday at 10am is the only time I am home - after-hours fee is fine, just book me.",
+      "reason": "The customer requests a standard AC repair and explicitly agrees to an after-hours fee for a specific time slot.",
+      "confidence": 1.0,
+      "tokens_in": 447,
+      "tokens_out": 87,
+      "cost": 0.00035160000000000004,
+      "seconds": 5.0
+    },
+    "r40": {
+      "decision": "newsletter",
+      "quote": "Not urgent yet - is there a waitlist or newsletter for openings?",
+      "reason": "The customer is requesting service for next month and specifically asks about a waitlist or newsletter, indicating a future, non-urgent need.",
+      "confidence": 1.0,
+      "tokens_in": 453,
+      "tokens_out": 73,
+      "cost": 0.00031840000000000004,
+      "seconds": 4.4
     }
   }
 }

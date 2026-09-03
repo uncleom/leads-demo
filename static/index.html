@@ -2,264 +2,557 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Northline Ops — screen incoming proposals</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Inbound requests - Bayline Comfort Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0d1117; --panel:#151b23; --line:#252d38; --ink:#e6edf3; --dim:#8b949e;
-    --bad:#f0883e; --good:#3fb950; --acc:#58a6ff; --warn:#d2a8ff;
-    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+    --paper:#f7f5f0; --card:#ffffff; --ink:#1b1f23; --muted:#5b6570;
+    --line:#e2ddd3; --steel:#1f3a5f; --amber:#b4762b; --green:#2f6b45; --red:#9c3b2e;
+    --amber-soft:#fbf1e2; --green-soft:#e9f2ec; --red-soft:#f6ece9; --steel-soft:#eaf0f7;
+    --sans:Inter,system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+    --radius:10px;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);
-       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
-  .wrap{max-width:1180px;margin:0 auto;padding:40px 20px 80px}
-  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:28px}
-  h1{font-size:clamp(24px,3.4vw,34px);margin:0 0 10px;letter-spacing:-.02em}
-  .lede{color:var(--dim);max-width:68ch;margin:0}
-  .note{margin-top:16px;font-size:13px;color:var(--dim);border-left:2px solid var(--line);padding-left:12px}
-  h2{font-size:13px;text-transform:uppercase;letter-spacing:.09em;color:var(--dim);
-     font-weight:600;margin:0 0 12px}
-  .vacancy{background:var(--panel);border:1px solid var(--line);border-radius:10px;
-     padding:16px 18px;margin-bottom:18px}
-  .vacancy h3{margin:0 0 4px;font-size:16px}
-  .vacancy .co{font-size:12.5px;color:var(--acc);font-family:var(--mono)}
-  .vacancy p{margin:8px 0 0;font-size:14.5px;color:#c9d1d9}
-  .crit{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
-  @media(max-width:800px){.crit{grid-template-columns:1fr 1fr}}
-  label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--dim)}
-  label.chk{flex-direction:row;align-items:center;gap:8px;padding-top:18px}
-  input[type=number], input[type=text]{
-    background:var(--panel);border:1px solid var(--line);color:var(--ink);
-    padding:8px 10px;border-radius:8px;font-size:14px}
-  input:focus{outline:none;border-color:var(--acc)}
-  .actions{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 8px}
-  button{background:var(--acc);border:0;color:#04121f;font-weight:600;
-     padding:11px 20px;border-radius:8px;cursor:pointer;font-size:15px}
-  button.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:500}
+  html,body{margin:0;background:var(--paper);color:var(--ink);
+    font:400 1.125rem/1.55 var(--sans); overflow-x:hidden}
+  body{display:flex;flex-direction:column;align-items:center}
+  img,svg,video{max-width:100%;height:auto}
+  h1,h2,h3{text-wrap:balance;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+  p{text-wrap:pretty}
+  a{color:var(--steel)}
+  .skip{position:absolute;left:-999px;top:8px;background:var(--steel);color:#fff;
+    padding:8px 12px;z-index:10}
+  .skip:focus{left:8px}
+  .wrap{max-width:1040px;width:100%;margin-left:auto;margin-right:auto;
+    padding:28px 16px 72px;min-width:0}
+  @media(min-width:720px){.wrap{padding:40px 24px 96px}}
+
+  .brand{margin:0 0 20px;color:var(--muted);font-size:1rem}
+  .brand strong{color:var(--ink);font-weight:600}
+  h1{margin:0;font-size:1.25rem;font-weight:500;letter-spacing:0;color:var(--muted)}
+  .hero-count{display:block;margin:6px 0 14px;font-family:var(--mono);font-weight:600;
+    font-size:clamp(3rem,14vw,4.75rem);letter-spacing:-.03em;line-height:.95;
+    color:var(--steel);font-variant-numeric:tabular-nums}
+  .hero-of{font-size:.42em;letter-spacing:-.02em;color:var(--ink);font-weight:500}
+  .lede{max-width:62ch;margin:0 0 12px;font-size:1.125rem;color:var(--ink)}
+  .note,.synth{margin:0 0 8px;font-size:.95rem;color:var(--muted);max-width:68ch}
+  .actions{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 8px}
+  button{font:600 1rem/1.2 var(--sans);min-height:44px;padding:10px 18px;
+    border-radius:8px;cursor:pointer;border:1px solid transparent}
+  button.primary{background:var(--steel);color:#fff}
+  button.primary:hover{background:#182e4c}
+  button.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  button.ghost:hover{border-color:var(--steel)}
   button:disabled{opacity:.5;cursor:default}
-  .funnel{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px}
-  .funnel .stat{background:var(--panel);border:1px solid var(--line);border-radius:9px;
-     padding:12px 14px;min-width:140px}
-  .funnel .n{font-size:26px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
-  .funnel .k{font-size:12px;color:var(--dim);margin-top:4px}
-  .funnel .stat.save .n{color:var(--good)}
-  .byrule{font-size:12.5px;color:var(--dim);font-family:var(--mono);margin:0 0 18px}
-  .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px;align-items:start}
-  @media(max-width:800px){.cols{grid-template-columns:1fr}}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
-  .card.l{border-top:2px solid var(--bad)} .card.r{border-top:2px solid var(--good)}
-  .card h3{margin:0 0 4px;font-size:15px}
-  .card .sub{margin:0 0 14px;font-size:12.5px;color:var(--dim);font-family:var(--mono)}
-  .price{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:0 0 14px;
-     padding:13px 15px;background:#0d1117;border:1px solid var(--line);border-radius:9px}
-  .price .big{font-size:27px;font-weight:700;letter-spacing:-.02em;line-height:1.1;
-     font-variant-numeric:tabular-nums}
-  .card.l .price .big{color:var(--bad)}
-  .card.r .price .big{color:var(--good)}
-  .price .unit{font-size:13px;color:var(--dim)}
-  .price .meta{flex-basis:100%;margin-top:7px;font-family:var(--mono);font-size:11.5px;
-     color:var(--dim);line-height:1.5}
-  .why{margin:0 0 14px;font-size:13px;line-height:1.55;color:var(--dim);
-     border-left:2px solid var(--line);padding-left:11px}
-  .app{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;background:#0d1117}
-  .app.head{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
-  .app .who{font-weight:600;font-size:14px}
-  .app .hd{font-size:12px;color:var(--dim);font-family:var(--mono)}
-  .badge{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
-     padding:2px 7px;border-radius:999px;font-family:var(--mono)}
-  .badge.pass{color:#0d1117;background:var(--good)}
-  .badge.reject{color:#0d1117;background:var(--bad)}
-  .badge.uncertain{color:#0d1117;background:var(--warn)}
-  .badge.pending{color:var(--dim);background:#21262d}
-  .layer{font-size:11.5px;color:var(--acc);font-family:var(--mono)}
-  .quote{margin:8px 0 0;font-size:13.5px;color:#c9d1d9;border-left:2px solid var(--acc);
-     padding-left:10px}
-  .quote::before{content:"“"} .quote::after{content:"”"}
-  .reason{margin:6px 0 0;font-size:13px;color:var(--dim)}
-  details.body{margin-top:8px}
-  details.body summary{cursor:pointer;font-size:12px;color:var(--dim)}
-  details.body pre{white-space:pre-wrap;font-family:inherit;font-size:13px;color:#c9d1d9;
-     margin:8px 0 0;line-height:1.5}
-  .spin{color:var(--dim);font-family:var(--mono);font-size:13px}
-  .err{color:var(--bad);font-size:14px;margin:8px 0}
-  .source{margin:12px 0 0;font-size:13px;color:var(--dim);
-     border-left:2px solid var(--acc);padding-left:12px}
-  footer{margin-top:60px;border-top:1px solid var(--line);padding-top:22px;
-     font-size:13.5px;color:var(--dim)}
-  footer a{color:var(--acc)}
-  .synth{font-size:12px;color:var(--dim);margin-top:10px}
+  button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{
+    outline:2px solid var(--steel);outline-offset:2px}
+  .err{margin:12px 0 0;color:var(--red);font-size:1rem}
+  .err[hidden],[hidden]{display:none !important}
+
+  .tally{display:flex;flex-wrap:wrap;gap:8px 18px;margin:18px 0 0;padding-top:16px;
+    border-top:1px solid var(--line);font-size:.95rem;color:var(--muted)}
+  .tally b{font-family:var(--mono);font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+  .tally .ok b{color:var(--green)}
+  .tally .no b{color:var(--red)}
+
+  h2{font-size:1.25rem;margin:0 0 8px}
+  h2 .n{font-family:var(--mono);font-weight:600;color:var(--muted);font-size:.9rem;
+    font-variant-numeric:tabular-nums}
+  .sec{margin-top:48px}
+  .sec > .hint{margin:0 0 16px;color:var(--muted);font-size:.95rem;max-width:65ch}
+
+  .thresholds{display:grid;grid-template-columns:1fr;gap:12px;margin-top:16px}
+  @media(min-width:800px){
+    .thresholds{grid-template-columns:minmax(0,2fr) minmax(0,.9fr) minmax(0,1.1fr) minmax(0,.9fr)}
+  }
+  label{display:flex;flex-direction:column;gap:6px;font-size:.95rem;color:var(--muted)}
+  input,textarea{
+    font:500 1rem/1.4 var(--sans);color:var(--ink);background:var(--card);
+    border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%;min-width:0;
+    resize:vertical}
+  input[type=number]{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .hours-row{display:flex;align-items:center;gap:8px}
+  .hours-row input{flex:1}
+  .hours-row span{color:var(--muted);font-size:.9rem}
+
+  .rule-block{margin:0;border-top:1px solid var(--line)}
+  .rule-block:last-child{border-bottom:1px solid var(--line)}
+  .rule-block > summary{
+    cursor:pointer;list-style:none;display:flex;align-items:center;
+    gap:10px;min-height:44px;padding:8px 0;font-weight:600;font-size:1.05rem}
+  .rule-block > summary::-webkit-details-marker{display:none}
+  .rule-block > summary::before{content:"";width:7px;height:7px;flex:0 0 auto;
+    border-right:2px solid var(--steel);border-bottom:2px solid var(--steel);
+    transform:rotate(-45deg);transition:transform .15s ease}
+  .rule-block[open] > summary::before{transform:rotate(45deg)}
+  .rule-block > summary .rule-label{flex:1;min-width:0}
+  .rule-block > summary .n{font-family:var(--mono);font-weight:500;color:var(--muted);
+    font-size:.9rem;font-variant-numeric:tabular-nums;margin-left:auto}
+  .req{padding:12px 0;border-top:1px solid var(--line)}
+  .req:last-child{border-bottom:1px solid var(--line)}
+  .req .who{font-weight:600;font-size:1.05rem}
+  .req .meta{display:block;margin-top:2px;font-size:.9rem;color:var(--muted)}
+  .req .meta .mono{font-family:var(--mono);font-size:.85rem}
+  time{font-family:var(--mono);font-size:.85rem;font-variant-numeric:tabular-nums}
+
+  summary.why-btn{
+    cursor:pointer;list-style:none;display:inline-flex;align-items:center;
+    min-height:44px;margin-top:6px;padding:0;color:var(--steel);font-weight:600;
+    font-size:1rem;background:none;border:0}
+  summary.why-btn::-webkit-details-marker{display:none}
+  summary.why-btn::before{content:"";width:7px;height:7px;margin-right:8px;
+    border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+    transform:rotate(-45deg);transition:transform .15s ease}
+  details[open] > summary.why-btn::before{transform:rotate(45deg)}
+  details[open] > summary.why-btn .shut{display:none}
+  details:not([open]) > summary.why-btn .open{display:none}
+
+  .why-panel{margin:8px 0 4px;padding:12px 14px;background:var(--red-soft);border-radius:8px}
+  .why-panel.model{background:var(--amber-soft)}
+  .rule-name{margin:0 0 6px;font-family:var(--mono);font-size:.9rem;font-weight:600;
+    color:var(--red);overflow-wrap:anywhere}
+  .why-panel.model .rule-name{color:var(--ink)}
+  .why-reason{margin:0 0 10px;font-size:.95rem;color:var(--ink)}
+  blockquote.quote{margin:0;padding:0;font-size:1rem;color:var(--ink);overflow-wrap:anywhere}
+  blockquote.quote::before{content:"“"}
+  blockquote.quote::after{content:"”"}
+  .full{margin-top:10px;font-size:.95rem}
+  .full summary{cursor:pointer;color:var(--muted);font-size:.9rem;min-height:36px}
+  .full p{margin:8px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+
+  .baskets{display:grid;grid-template-columns:1fr;gap:18px}
+  @media(min-width:800px){.baskets{grid-template-columns:1fr 1fr}}
+  .basket{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 16px 12px;min-width:0}
+  .basket h3{margin:0 0 4px;font-size:1.05rem}
+  .basket .sub{margin:0 0 10px;font-size:.9rem;color:var(--muted)}
+  .basket.disputed{background:var(--amber-soft);border-color:#e4cba3}
+  .empty{margin:8px 0;color:var(--muted);font-size:.95rem}
+  .mini{padding:8px 0;border-top:1px solid var(--line)}
+  .mini:first-of-type{border-top:0}
+  .clip{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
+    overflow:hidden;margin-top:6px;font-size:.95rem}
+  .mark{display:inline-block;font-family:var(--mono);font-size:.75rem;font-weight:600;
+    letter-spacing:.02em;padding:2px 7px;border-radius:999px;vertical-align:middle;
+    margin-left:6px}
+  .mark.pass{background:var(--green-soft);color:var(--green)}
+  .mark.model{background:var(--amber-soft);color:var(--ink)}
+  .mark.drop{background:var(--red-soft);color:var(--red)}
+
+  .flow-pan{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    max-width:100%;width:100%;min-width:0;line-height:0}
+  .flow-pan svg{display:block;width:100%;height:auto;min-width:720px;max-width:none;
+    aspect-ratio:2870/1276}
+  .flow-cap{margin:10px 0 0;font-size:.95rem;color:var(--muted);max-width:65ch}
+
+  .cost{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);
+    font-size:.9rem;color:var(--muted);max-width:70ch}
+  .cost .mono{font-family:var(--mono);font-size:.85rem;font-variant-numeric:tabular-nums}
+
+  footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:.9rem;color:var(--muted);max-width:65ch}
+
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none !important;transition:none !important}
+  }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to the screening</a>
 <div class="wrap">
 <header>
-  <h1>Same 12 proposals, two ways to screen them</h1>
-  <p class="lede">The usual request: qualify incoming applications before a person sees them. The naive way is to send every document to a model. It is expensive, and the client cannot see why someone was dropped. The other way is a cheap mechanical layer first, then the model only on who survived — with a quote from the text under every decision.</p>
-  <p class="note">Left: every proposal goes to the model. Right: rules fire first, for free. Same model, same prompt, same 12 synthetic applications. Change a criterion below and run again - the funnel moves. Model opinions are a recorded screening, not a live call on each visitor.</p>
-  <p class="synth">All applications are synthetic. No real people.</p>
+  <p class="brand"><strong id="co">Bayline Comfort Co.</strong> · <span id="city">Port Meridian</span></p>
+  <h1>A person reads
+    <span class="hero-count" aria-live="polite">
+      <span id="human">-</span><span class="hero-of"> of <span id="total">40</span></span>
+    </span>
+  </h1>
+  <p class="lede" id="summary">Forty inbound requests from the website form, WhatsApp and Instagram. Cheap rules close the obvious ones. The model only sees who is left.</p>
+  <p class="note" id="source">This page shows a recorded screening. Pressing the button does not call the model.</p>
+  <p class="synth">Requests are synthetic. The company and the city are fictional. No real people.</p>
+  <div class="actions">
+    <button class="primary" id="go" type="button">Run this pack</button>
+    <button class="ghost" id="reset" type="button">Reset thresholds</button>
+  </div>
+  <p class="err" id="err" hidden></p>
+  <div class="tally" id="tally" hidden></div>
 </header>
 
-<h2>The vacancy</h2>
-<div class="vacancy">
-  <div class="co" id="co"></div>
-  <h3 id="title"></h3>
-  <p id="summary"></p>
-</div>
-
-<h2>Criteria — edit and run</h2>
-<div class="crit">
-  <label>Min words<input type="number" id="min_words" min="1" max="5000"></label>
-  <label>Rate min, USD/hr<input type="number" id="rate_min" min="0" max="1000"></label>
-  <label>Rate max, USD/hr<input type="number" id="rate_max" min="0" max="1000"></label>
-  <label>Hours min / week<input type="number" id="hours_min" min="0" max="80"></label>
-  <label>Hours max / week<input type="number" id="hours_max" min="0" max="80"></label>
-  <label>Must-have skills<input type="text" id="must_have" placeholder="n8n, comma-separated"></label>
-  <label>Job tokens<input type="text" id="client_tokens" placeholder="company, stack"></label>
-  <label class="chk"><input type="checkbox" id="require_rate"> Require a rate</label>
-  <label class="chk"><input type="checkbox" id="require_hours"> Require hours/week</label>
-  <label class="chk"><input type="checkbox" id="require_portfolio"> Require a portfolio link</label>
-  <label class="chk"><input type="checkbox" id="reject_off_platform"> Drop off-platform asks</label>
-</div>
-<div class="actions">
-  <button id="go" type="button">Run screening</button>
-  <button id="reset" class="ghost" type="button">Reset criteria</button>
-</div>
-<p class="note" style="margin-top:8px">Try turning off "Require a portfolio link" or raising the rate ceiling to 200. The next run is a different funnel.</p>
-
-<div class="funnel" id="funnel" hidden></div>
-<p class="byrule" id="byrule" hidden></p>
-<p class="source" id="source" hidden></p>
-<p class="err" id="err" hidden></p>
-
-<div class="cols">
-  <div class="card l">
-    <h3>Every proposal to the model</h3>
-    <p class="sub">no rules · 12 calls on this pack</p>
-    <div class="price" id="pr-l" hidden>
-      <span class="big" id="pr-l-big"></span><span class="unit">per 1,000 packs</span>
-      <span class="meta" id="pr-l-meta"></span>
-    </div>
-    <p class="why">The model sees spam, templates and off-platform asks too. You pay for them, and the reason is an opinion, not a rule you can point at.</p>
-    <div id="naive"><span class="spin">— set the criteria and run —</span></div>
+<main id="main">
+<section class="sec" aria-labelledby="th-h">
+  <h2 id="th-h">Thresholds for the next run</h2>
+  <p class="hint">Change the area, the minimum, the shift or the confidence bar, then run again. Rules move with the new numbers. Model opinions stay the recorded ones.</p>
+  <div class="thresholds">
+    <label>Service area
+      <textarea id="service_area" rows="2" autocomplete="off"></textarea>
+    </label>
+    <label>Minimum order, USD
+      <input id="min_order_usd" type="number" min="0" max="10000" step="1">
+    </label>
+    <label class="hours">Work hours
+      <span class="hours-row">
+        <input id="work_hours_start" type="number" min="0" max="23" aria-label="Shift start hour">
+        <span aria-hidden="true">to</span>
+        <input id="work_hours_end" type="number" min="1" max="24" aria-label="Shift end hour">
+      </span>
+    </label>
+    <label>Confidence bar
+      <input id="confidence_threshold" type="number" min="0" max="1" step="0.05">
+    </label>
   </div>
-  <div class="card r">
-    <h3>Rules first, model on survivors</h3>
-    <p class="sub">mechanical layer · then the same model</p>
-    <div class="price" id="pr-r" hidden>
-      <span class="big" id="pr-r-big"></span><span class="unit">per 1,000 packs</span>
-      <span class="meta" id="pr-r-meta"></span>
-    </div>
-    <p class="why">Dropped applications show the rule and a phrase from the text. The model is only asked about people the rules could not decide.</p>
-    <div id="structured"><span class="spin">— set the criteria and run —</span></div>
-  </div>
-</div>
+</section>
 
-<footer>Demo built by Oleg Minkin · n8n automation, integrations and AI agents · <a href="https://demo-support.om-dev.uk">another case</a></footer>
+<section class="sec" id="baskets-sec" hidden aria-labelledby="baskets-h">
+  <h2 id="baskets-h">Where the rest went</h2>
+  <p class="hint">Survivors of the rules. The model sorted them. Disputed ones still need a person.</p>
+  <div class="baskets" id="baskets"></div>
+</section>
+
+<section class="sec" id="closed-sec" hidden aria-labelledby="closed-h">
+  <h2 id="closed-h">Closed by a rule <span class="n" id="closed-n"></span></h2>
+  <p class="hint">A rule you can argue with and correct. Open a rule to see who it closed, then open a request for the sentence it used.</p>
+  <div id="closed"></div>
+</section>
+
+<section class="sec" aria-labelledby="flow-h">
+  <h2 id="flow-h">The automation</h2>
+  <p class="hint">Scroll sideways on a narrow screen to read the whole path.</p>
+  <div class="flow-pan" tabindex="0" aria-label="Lead qualification workflow. Scroll sideways for the full diagram.">
+    <svg viewBox="0 0 2870 1276" width="2870" height="1276" preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg" font-family="Inter,system-ui,sans-serif" role="img" aria-label="Lead qualification workflow">
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8a93a0"/></marker></defs>
+<rect width="2870" height="1276" fill="#f7f5f0"/>
+<path d="M280,558.0 C295.0,558.0 295.0,558.0 310,558.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M500,558.0 C515.0,558.0 515.0,558.0 530,558.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M720,558.0 C735.0,558.0 735.0,558.0 750,558.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M940,558.0 C955.0,558.0 955.0,558.0 970,558.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1160,558.0 C1205.0,558.0 1205.0,738.0 1250,738.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1106.8" y="577.6" width="146.0" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1179.8" y="589.6" text-anchor="middle" font-size="12.5" fill="#5b6570">outside service area</text>
+<path d="M1160,558.0 C1205.0,558.0 1205.0,878.0 1250,878.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1108.3" y="650.0" width="166.4" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1191.5" y="662.0" text-anchor="middle" font-size="12.5" fill="#5b6570">service we do not offer</text>
+<path d="M1160,558.0 C1205.0,558.0 1205.0,1018.0 1250,1018.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1137.0" y="758.8" width="132.39999999999998" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1203.2" y="770.8" text-anchor="middle" font-size="12.5" fill="#5b6570">no request details</text>
+<path d="M1160,558.0 C1205.0,558.0 1205.0,1158.0 1250,1158.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1131.7" y="904.0" width="166.4" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1214.9" y="916.0" text-anchor="middle" font-size="12.5" fill="#5b6570">below minimum job value</text>
+<path d="M1160,558.0 C1205.0,558.0 1205.0,398.0 1250,398.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1160.3999999999999" y="419.6" width="132.39999999999998" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1226.6" y="431.6" text-anchor="middle" font-size="12.5" fill="#5b6570">passes cheap rules</text>
+<path d="M1440,738.0 C1465.0,738.0 1465.0,948.0 1490,948.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1440,878.0 C1465.0,878.0 1465.0,948.0 1490,948.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1440,1018.0 C1465.0,1018.0 1465.0,948.0 1490,948.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1440,1158.0 C1465.0,1158.0 1465.0,948.0 1490,948.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1680,948.0 C1695.0,948.0 1695.0,948.0 1710,948.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1900,948.0 C2025.0,948.0 2025.0,798.0 2150,798.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1440,398.0 C1455.0,398.0 1455.0,398.0 1470,398.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1660,398.0 C1675.0,398.0 1675.0,398.0 1690,398.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1880,398.0 C1905.0,398.0 1905.0,278.0 1930,278.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1875.8" y="351.6" width="30.4" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1891.0" y="363.6" text-anchor="middle" font-size="12.5" fill="#5b6570">yes</text>
+<path d="M1880,398.0 C1905.0,398.0 1905.0,538.0 1930,538.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1885.7" y="427.0" width="23.6" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1897.5" y="439.0" text-anchor="middle" font-size="12.5" fill="#5b6570">no</text>
+<path d="M2120,278.0 C2135.0,278.0 2135.0,278.0 2150,278.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M2340,278.0 C2465.0,278.0 2465.0,118.0 2590,118.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="2339.0" y="222.8" width="112.0" height="17" rx="4" fill="#f7f5f0"/>
+<text x="2395.0" y="234.8" text-anchor="middle" font-size="12.5" fill="#5b6570">owner: Telegram</text>
+<path d="M2340,278.0 C2465.0,278.0 2465.0,258.0 2590,258.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="2364.7" y="251.0" width="125.6" height="17" rx="4" fill="#f7f5f0"/>
+<text x="2427.5" y="263.0" text-anchor="middle" font-size="12.5" fill="#5b6570">on call: WhatsApp</text>
+<path d="M2340,278.0 C2465.0,278.0 2465.0,398.0 2590,398.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="2410.8" y="315.6" width="98.39999999999999" height="17" rx="4" fill="#f7f5f0"/>
+<text x="2460.0" y="327.6" text-anchor="middle" font-size="12.5" fill="#5b6570">office: Slack</text>
+<path d="M2340,278.0 C2465.0,278.0 2465.0,538.0 2590,538.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="2422.9" y="416.6" width="139.2" height="17" rx="4" fill="#f7f5f0"/>
+<text x="2492.5" y="428.6" text-anchor="middle" font-size="12.5" fill="#5b6570">queue: email digest</text>
+<path d="M2120,538.0 C2135.0,538.0 2135.0,798.0 2150,798.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="90" y="530" width="190" height="56" rx="8" fill="#eaf0f7" stroke="#1f3a5f" stroke-width="2"/>
+<text x="104" y="554" font-size="13.5" font-weight="600" fill="#1b1f23">New request</text>
+<text x="104" y="572" font-size="12" fill="#5b6570">incoming request</text>
+<rect x="310" y="530" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="324" y="554" font-size="13.5" font-weight="600" fill="#1b1f23">Normalize request</text>
+<text x="324" y="572" font-size="12" fill="#5b6570">fields</text>
+<rect x="530" y="530" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="544" y="554" font-size="13.5" font-weight="600" fill="#1b1f23">Thresholds</text>
+<text x="544" y="572" font-size="12" fill="#5b6570">fields</text>
+<rect x="750" y="530" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="764" y="554" font-size="13.5" font-weight="600" fill="#1b1f23">Same person today?</text>
+<text x="764" y="572" font-size="12" fill="#5b6570">seen before?</text>
+<rect x="970" y="530" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="984" y="554" font-size="13.5" font-weight="600" fill="#1b1f23">Cheap rules</text>
+<text x="984" y="572" font-size="12" fill="#5b6570">branches</text>
+<rect x="1250" y="710" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="1264" y="734" font-size="13.5" font-weight="600" fill="#1b1f23">Reason: outside area</text>
+<text x="1264" y="752" font-size="12" fill="#5b6570">fields</text>
+<rect x="1250" y="850" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="1264" y="874" font-size="13.5" font-weight="600" fill="#1b1f23">Reason: not our service</text>
+<text x="1264" y="892" font-size="12" fill="#5b6570">fields</text>
+<rect x="1250" y="990" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="1264" y="1014" font-size="13.5" font-weight="600" fill="#1b1f23">Reason: no details</text>
+<text x="1264" y="1032" font-size="12" fill="#5b6570">fields</text>
+<rect x="1250" y="1130" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="1264" y="1154" font-size="13.5" font-weight="600" fill="#1b1f23">Reason: below minimum</text>
+<text x="1264" y="1172" font-size="12" fill="#5b6570">fields</text>
+<rect x="1490" y="920" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="1504" y="944" font-size="13.5" font-weight="600" fill="#1b1f23">Collect declined</text>
+<text x="1504" y="962" font-size="12" fill="#5b6570">collect</text>
+<rect x="1710" y="920" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="1724" y="944" font-size="13.5" font-weight="600" fill="#1b1f23">Polite reply</text>
+<text x="1724" y="962" font-size="12" fill="#5b6570">fields</text>
+<rect x="1250" y="370" width="190" height="56" rx="8" fill="#fbf1e2" stroke="#b4762b" stroke-width="2"/>
+<text x="1264" y="394" font-size="13.5" font-weight="600" fill="#1b1f23">AI: intent and urgency</text>
+<text x="1264" y="412" font-size="12" fill="#5b6570">HTTP</text>
+<rect x="1470" y="370" width="190" height="56" rx="8" fill="#fbf1e2" stroke="#b4762b" stroke-width="2"/>
+<text x="1484" y="394" font-size="13.5" font-weight="600" fill="#1b1f23">Quote must be in the text</text>
+<text x="1484" y="412" font-size="12" fill="#5b6570">code</text>
+<rect x="1690" y="370" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="1704" y="394" font-size="13.5" font-weight="600" fill="#1b1f23">Confident enough?</text>
+<text x="1704" y="412" font-size="12" fill="#5b6570">condition</text>
+<rect x="1930" y="250" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="1944" y="274" font-size="13.5" font-weight="600" fill="#1b1f23">Create hot lead in CRM</text>
+<text x="1944" y="292" font-size="12" fill="#5b6570">HTTP</text>
+<rect x="2150" y="250" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="2164" y="274" font-size="13.5" font-weight="600" fill="#1b1f23">Notify: channel by role</text>
+<text x="2164" y="292" font-size="12" fill="#5b6570">branches</text>
+<rect x="2590" y="90" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="2604" y="114" font-size="13.5" font-weight="600" fill="#1b1f23">Telegram</text>
+<text x="2604" y="132" font-size="12" fill="#5b6570">handoff</text>
+<rect x="2590" y="230" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="2604" y="254" font-size="13.5" font-weight="600" fill="#1b1f23">WhatsApp</text>
+<text x="2604" y="272" font-size="12" fill="#5b6570">handoff</text>
+<rect x="2590" y="370" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="2604" y="394" font-size="13.5" font-weight="600" fill="#1b1f23">Slack</text>
+<text x="2604" y="412" font-size="12" fill="#5b6570">handoff</text>
+<rect x="2590" y="510" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="2604" y="534" font-size="13.5" font-weight="600" fill="#1b1f23">Email digest</text>
+<text x="2604" y="552" font-size="12" fill="#5b6570">handoff</text>
+<rect x="1930" y="510" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="1944" y="534" font-size="13.5" font-weight="600" fill="#1b1f23">Needs a human</text>
+<text x="1944" y="552" font-size="12" fill="#5b6570">handoff</text>
+<rect x="2150" y="770" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="2164" y="794" font-size="13.5" font-weight="600" fill="#1b1f23">Decision log</text>
+<text x="2164" y="812" font-size="12" fill="#5b6570">HTTP</text>
+</svg>
+  </div>
+  <p class="flow-cap">Export of a working n8n workflow, not a drawing of one.</p>
+</section>
+
+<p class="cost" id="cost" hidden></p>
+</main>
+
+<footer>Requests are synthetic. Bayline Comfort Co. and Port Meridian are fictional. No real people in this pack.</footer>
 </div>
 <script>
 const $ = id => document.getElementById(id);
 let DEFAULTS = null;
+let RULES = {};
+
+const BUCKET_META = {
+  manager: {
+    title: "To a manager",
+    sub: "A person calls, quotes or books this one."
+  },
+  calendar: {
+    title: "Calendar link",
+    sub: "A booking link goes out. Nobody reads the thread."
+  },
+  newsletter: {
+    title: "Newsletter",
+    sub: "Not a job today. They go on the list."
+  },
+  decline: {
+    title: "Polite decline",
+    sub: "Closed by the model, with a quote from the message."
+  },
+  disputed: {
+    title: "Disputed, to a person",
+    sub: "Confidence was low, or the quote was not in the text."
+  }
+};
 
 function csv(s){
   return (s||"").split(",").map(x=>x.trim()).filter(Boolean);
 }
 function criteriaFromForm(){
   return {
-    min_words: +$("min_words").value,
-    rate_min: +$("rate_min").value,
-    rate_max: +$("rate_max").value,
-    hours_min: +$("hours_min").value,
-    hours_max: +$("hours_max").value,
-    must_have: csv($("must_have").value),
-    client_tokens: csv($("client_tokens").value),
-    require_rate: $("require_rate").checked,
-    require_hours: $("require_hours").checked,
-    require_portfolio: $("require_portfolio").checked,
-    reject_off_platform: $("reject_off_platform").checked,
+    service_area: csv($("service_area").value),
+    services: (DEFAULTS && DEFAULTS.services) ? DEFAULTS.services.slice() : [],
+    min_order_usd: +$("min_order_usd").value,
+    work_hours_start: +$("work_hours_start").value,
+    work_hours_end: +$("work_hours_end").value,
+    confidence_threshold: +$("confidence_threshold").value
   };
 }
 function fillForm(c){
-  $("min_words").value=c.min_words;
-  $("rate_min").value=c.rate_min;
-  $("rate_max").value=c.rate_max;
-  $("hours_min").value=c.hours_min;
-  $("hours_max").value=c.hours_max;
-  $("must_have").value=(c.must_have||[]).join(", ");
-  $("client_tokens").value=(c.client_tokens||[]).join(", ");
-  $("require_rate").checked=!!c.require_rate;
-  $("require_hours").checked=!!c.require_hours;
-  $("require_portfolio").checked=!!c.require_portfolio;
-  $("reject_off_platform").checked=!!c.reject_off_platform;
+  $("service_area").value = (c.service_area||[]).join(", ");
+  $("min_order_usd").value = c.min_order_usd;
+  $("work_hours_start").value = c.work_hours_start;
+  $("work_hours_end").value = c.work_hours_end;
+  $("confidence_threshold").value = c.confidence_threshold;
 }
 function money(v, dp){
-  return "US$ " + v.toLocaleString("en-US",{minimumFractionDigits:dp, maximumFractionDigits:dp});
+  return "US$ " + Number(v).toLocaleString("en-US",{minimumFractionDigits:dp, maximumFractionDigits:dp});
 }
 function esc(s){
   return String(s||"").replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 }
-function card(row){
-  const dec = row.decision || "pending";
-  const layer = row.rule
-    ? `rule: ${esc(row.rule)}`
-    : (row.layer==="model" ? "model" : "rules");
-  const quote = row.quote ? `<p class="quote">${esc(row.quote)}</p>` : "";
-  const reason = row.reason ? `<p class="reason">${esc(row.reason)}${row.rule_label ? " · "+esc(row.rule_label) : ""}</p>` : "";
-  return `<article class="app">
-    <div class="head">
-      <span class="badge ${esc(dec)}">${esc(dec)}</span>
-      <span class="who">${esc(row.name)}</span>
-      <span class="hd">${esc(row.headline)}</span>
-      <span class="layer">${layer}</span>
-    </div>
-    ${quote}${reason}
-    <details class="body"><summary>full text</summary><pre>${esc(row.body)}</pre></details>
-  </article>`;
+function fmtTime(iso){
+  const t = String(iso||"");
+  return t.length >= 16 ? t.slice(11,16) : t;
 }
-function paintList(id, rows, empty){
-  const el = $(id);
-  if(!rows){ el.innerHTML = `<span class="spin">${empty}</span>`; return; }
-  el.innerHTML = rows.map(card).join("");
-}
-function paintFunnel(f){
-  $("funnel").hidden = false;
-  $("funnel").innerHTML = `
-    <div class="stat"><div class="n">${f.in}</div><div class="k">in</div></div>
-    <div class="stat"><div class="n">${f.dropped}</div><div class="k">dropped by rules</div></div>
-    <div class="stat"><div class="n">${f.to_model}</div><div class="k">sent to the model</div></div>
-    <div class="stat save"><div class="n">${f.saved}</div><div class="k">model calls saved</div></div>`;
-  const bits = Object.entries(f.by_rule||{}).map(([k,v])=>`${k} ×${v}`);
-  $("byrule").hidden = bits.length===0;
-  $("byrule").textContent = bits.length ? "Rules that fired: "+bits.join(" · ") : "";
-}
-function paintPrice(side, u){
-  if(!u){ $("pr-"+side).hidden = true; return; }
-  $("pr-"+side+"-big").textContent = money(u.cost_per_1000, 2);
-  $("pr-"+side+"-meta").textContent =
-    `${u.model} · ${u.calls} call${u.calls===1?"":"s"} · ${u.tokens_in.toLocaleString("en-US")} tokens · ${u.seconds}s · ${money(u.cost,4)} this pack`;
-  $("pr-"+side).hidden = false;
-}
-
 function looksLikeTrace(s){
   return /Traceback|ClientError|RESOURCE_EXHAUSTED|Quota exceeded/.test(s||"");
 }
+function humanOf(buckets){
+  return ((buckets.manager||[]).length + (buckets.disputed||[]).length);
+}
+function mechanical(rows){
+  return (rows||[]).filter(r => r.rule);
+}
+function modelDeclines(rows){
+  return (rows||[]).filter(r => !r.rule && (r.bucket==="decline" || r.decision==="decline"));
+}
+
+function whyPanel(row, kind){
+  const ruleId = row.rule ? `<p class="rule-name">${esc(row.rule)}</p>` : `<p class="rule-name">model</p>`;
+  const specific = row.reason || row.rule_label || "";
+  const label = specific ? `<p class="why-reason">${esc(specific)}</p>` : "";
+  const quote = row.quote
+    ? `<blockquote class="quote">${esc(row.quote)}</blockquote>`
+    : `<p class="why-reason">No sentence was stored for this drop.</p>`;
+  const full = row.body
+    ? `<details class="full"><summary>Full message</summary><p>${esc(row.body)}</p></details>`
+    : "";
+  return `<details>
+    <summary class="why-btn"><span class="shut">Show why we dropped this</span><span class="open">Hide why we dropped this</span></summary>
+    <div class="why-panel ${kind}">
+      ${ruleId}${label}${quote}${full}
+    </div>
+  </details>`;
+}
+
+function reqRow(row, withWhy, kind){
+  const area = (row.client && row.client.area) || "no area";
+  return `<article class="req">
+    <div class="who">${esc(row.name||"Unknown")}</div>
+    <span class="meta"><span class="mono">${esc(row.channel||"")}</span> · <time datetime="${esc(row.time||"")}">${esc(fmtTime(row.time))}</time> · ${esc(area)}</span>
+    ${withWhy ? whyPanel(row, kind) : (row.quote ? `<blockquote class="quote" style="margin-top:8px">${esc(row.quote)}</blockquote>` : "")}
+  </article>`;
+}
+
+function miniRow(row){
+  const area = (row.client && row.client.area) || "no area";
+  const conf = (row.confidence!=null && row.layer==="model")
+    ? ` · <span class="mono">${Number(row.confidence).toFixed(2)}</span>`
+    : "";
+  const extra = row.reason ? `<p class="clip">${esc(row.reason)}</p>` : "";
+  const quote = row.quote ? `<p class="clip">${esc(row.quote)}</p>` : "";
+  return `<article class="mini">
+    <div class="who">${esc(row.name||"Unknown")}</div>
+    <span class="meta"><span class="mono">${esc(row.channel||"")}</span> · <time datetime="${esc(row.time||"")}">${esc(fmtTime(row.time))}</time> · ${esc(area)}${conf}</span>
+    ${extra}${row.reason ? "" : quote}
+  </article>`;
+}
+
+function paintClosed(rows){
+  const groups = [];
+  const seen = new Map();
+  const order = Object.keys(RULES);
+  for(const key of order){
+    const items = rows.filter(r => r.rule===key);
+    if(items.length) groups.push({key, label: RULES[key]||items[0].rule_label||key, items});
+    seen.set(key, true);
+  }
+  for(const r of rows){
+    if(r.rule && !seen.has(r.rule)){
+      const items = rows.filter(x => x.rule===r.rule);
+      groups.push({key:r.rule, label:r.rule_label||r.rule, items});
+      seen.set(r.rule, true);
+    }
+  }
+  $("closed-n").textContent = "("+rows.length+")";
+  $("closed").innerHTML = groups.map(g => `<details class="rule-block">
+    <summary><span class="rule-label">${esc(g.label)}</span><span class="n">${g.items.length}</span></summary>
+    ${g.items.map(r => reqRow(r, true, "rule")).join("")}
+  </details>`).join("");
+}
+
+function paintBaskets(buckets){
+  const keys = ["manager","calendar","newsletter","decline","disputed"];
+  $("baskets").innerHTML = keys.map(k => {
+    let rows = buckets[k]||[];
+    if(k==="decline") rows = modelDeclines(rows);
+    const meta = BUCKET_META[k];
+    const cls = k==="disputed" ? "basket disputed" : "basket";
+    const body = rows.length
+      ? rows.map(r => k==="decline" ? reqRow(r, true, "model") : miniRow(r)).join("")
+      : `<p class="empty">${k==="decline" ? "No extra declines from the model. Rule drops are listed above." : "None this run."}</p>`;
+    const count = k==="decline"
+      ? (buckets.decline||[]).length
+      : rows.length;
+    const mark = k==="disputed" ? `<span class="mark model">person</span>`
+      : k==="manager" ? `<span class="mark pass">person</span>`
+      : k==="decline" ? `<span class="mark drop">closed</span>`
+      : "";
+    return `<section class="${cls}">
+      <h3>${esc(meta.title)} <span class="n">${k==="decline" ? rows.length : count}</span>${mark}</h3>
+      <p class="sub">${esc(meta.sub)}</p>
+      ${body}
+    </section>`;
+  }).join("");
+}
+
+function paintHero(d){
+  const f = d.funnel||{};
+  const buckets = d.buckets||{};
+  const total = f.in || 40;
+  const human = humanOf(buckets);
+  $("human").textContent = String(human);
+  $("total").textContent = String(total);
+  $("tally").hidden = false;
+  $("tally").innerHTML =
+    `<span class="no"><b>${f.dropped||0}</b> closed by rules</span>`+
+    `<span class="ok"><b>${f.to_model||0}</b> reached the model</span>`+
+    `<span><b>${human}</b> a person still reads</span>`;
+  if(d.source && d.source.message){
+    $("source").textContent = d.source.message;
+  }
+}
+
+function paintCost(d){
+  const u = d.usage||{};
+  const a = u.structured, b = u.naive;
+  if(!a || !b){ $("cost").hidden = true; return; }
+  $("cost").hidden = false;
+  $("cost").innerHTML =
+    `Model cost this pack: <span class="mono">${money(a.cost,4)}</span> on `+
+    `<span class="mono">${a.calls}</span> survivors`+
+    (a.model ? ` (<span class="mono">${esc(a.model)}</span>)` : "")+
+    `. If the model had seen all ${b.calls} requests: `+
+    `<span class="mono">${money(b.cost,4)}</span>. `+
+    `Per 1,000 packs: <span class="mono">${money(a.cost_per_1000,2)}</span> vs `+
+    `<span class="mono">${money(b.cost_per_1000,2)}</span>.`;
+}
+
 async function run(){
   $("go").disabled = true;
   $("err").hidden = true;
-  $("source").hidden = true;
-  $("pr-l").hidden = true; $("pr-r").hidden = true;
-  const criteria = criteriaFromForm();
-  paintList("naive", null, "screening…");
-  paintList("structured", null, "screening…");
   try{
     const r = await fetch("/run", {
       method:"POST", headers:{"content-type":"application/json"},
-      body: JSON.stringify({criteria})
+      body: JSON.stringify({criteria: criteriaFromForm()})
     });
     const text = await r.text();
     if(looksLikeTrace(text)){
       $("err").hidden = false;
-      $("err").textContent = "The live model is unavailable. This demo should show a recorded screening instead.";
+      $("err").textContent = "The recorded screening is unavailable right now.";
       return;
     }
     let d = {};
@@ -268,26 +561,20 @@ async function run(){
     if(!r.ok){
       $("err").hidden = false;
       $("err").textContent = d.message || "The screening could not run.";
-      if(d.funnel) paintFunnel(d.funnel);
-      if(d.structured) paintList("structured", d.structured, "");
-      if(d.naive) paintList("naive", d.naive, "");
-      else paintList("naive", null, "No recorded screening to show.");
       return;
     }
-    paintFunnel(d.funnel);
-    paintList("structured", d.structured, "");
-    paintList("naive", d.naive, "");
-    paintPrice("l", d.usage && d.usage.naive);
-    paintPrice("r", d.usage && d.usage.structured);
-    if(d.source && d.source.message){
-      $("source").hidden = false;
-      $("source").textContent = d.source.message;
-    }
+    const closed = mechanical(d.structured || (d.buckets && d.buckets.decline) || []);
+    paintHero(d);
+    paintClosed(closed);
+    paintBaskets(d.buckets||{});
+    paintCost(d);
+    $("closed-sec").hidden = false;
+    $("baskets-sec").hidden = false;
   }catch(e){
     $("err").hidden = false;
     const msg = String(e && e.message || "");
     $("err").textContent = looksLikeTrace(msg)
-      ? "The live model is unavailable. This demo should show a recorded screening instead."
+      ? "The recorded screening is unavailable right now."
       : (msg || "Something broke.");
   }finally{
     $("go").disabled = false;
@@ -299,10 +586,16 @@ $("reset").onclick = () => { if(DEFAULTS) fillForm(DEFAULTS); };
 
 fetch("/boot").then(r=>r.json()).then(d=>{
   DEFAULTS = d.criteria;
-  $("co").textContent = d.vacancy.company;
-  $("title").textContent = d.vacancy.title;
-  $("summary").textContent = d.vacancy.summary;
+  RULES = d.rules || {};
+  const biz = d.business || {};
+  if(biz.company) $("co").textContent = biz.company;
+  if(biz.city) $("city").textContent = biz.city;
+  if(biz.summary) $("summary").textContent = biz.summary;
   fillForm(d.criteria);
+  return run();
+}).catch(()=>{
+  $("err").hidden = false;
+  $("err").textContent = "The page could not load the pack.";
 });
 </script>
 </body>
