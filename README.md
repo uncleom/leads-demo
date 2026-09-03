@@ -13,11 +13,13 @@ Live: https://demo-leads.om-dev.uk
 
 ## What it shows
 
-Six of forty requests reach a person. The other thirty-four are closed, and every
+<!-- demo-funnel -->
+Five of forty requests reach a person. Twenty-nine are closed by a rule, and every
 closed one carries the name of the rule that closed it plus the sentence from the
 request that triggered it. That is the point of the whole thing: **a rule can be
 argued with and adjusted, a model's opinion cannot.** Move a threshold on the page
 and the next run uses it.
+<!-- /demo-funnel -->
 
 Requests are routed into five buckets: to the manager, a booking link, the nurture
 list, a polite decline, and - kept separate - the disputed ones a person has to read.

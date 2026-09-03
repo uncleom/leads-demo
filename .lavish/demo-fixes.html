@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>demo-leads — правки к утверждению</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --paper: #f7f5f0; --card: #fff; --ink: #1b1f23; --muted: #5b6570;
+    --line: #e2ddd3; --steel: #1f3a5f; --amber: #b4762b; --green: #2f6b45; --red: #9c3b2e;
+    --amber-soft: #fbf1e2; --green-soft: #e9f2ec; --red-soft: #f6ece9; --steel-soft: #eaf0f7;
+  }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 400 18px/1.55 Inter, system-ui, sans-serif;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 28px 18px 96px; }
+  h1 { font-size: 1.85rem; line-height: 1.2; margin: 0 0 8px; letter-spacing: -.02em; }
+  h2 { font-size: 1.35rem; margin: 40px 0 12px; letter-spacing: -.02em; }
+  h3 { font-size: 1.1rem; margin: 0 0 6px; }
+  p, li { font-size: 18px; }
+  .lede { color: var(--muted); max-width: 62ch; margin: 0 0 24px; font-size: 20px; }
+  .note { font-size: 15px; color: var(--muted); margin: 0 0 20px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 999px; font-size: 15px; font-weight: 600;
+    border: 1px solid var(--line); background: var(--card);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; }
+  .dot.must { background: var(--red); }
+  .dot.should { background: var(--amber); }
+  .dot.later { background: var(--muted); }
+  .dot.skip { background: var(--green); }
+
+  .item {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 18px; margin: 0 0 12px; border-left: 5px solid var(--line);
+  }
+  .item.must { border-left-color: var(--red); background: linear-gradient(90deg, var(--red-soft), var(--card) 28%); }
+  .item.should { border-left-color: var(--amber); background: linear-gradient(90deg, var(--amber-soft), var(--card) 28%); }
+  .item.later { border-left-color: #9aa3ad; }
+  .item.skip { border-left-color: var(--green); background: linear-gradient(90deg, var(--green-soft), var(--card) 28%); }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 8px; }
+  .rank {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-weight: 600; font-size: 14px; color: var(--muted);
+  }
+  .tag {
+    font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 6px;
+  }
+  .tag.must { background: var(--red-soft); color: var(--red); }
+  .tag.should { background: var(--amber-soft); color: var(--amber); }
+  .tag.later { background: #eceff2; color: var(--muted); }
+  .tag.skip { background: var(--green-soft); color: var(--green); }
+  .why { color: var(--muted); margin: 8px 0 0; font-size: 16px; }
+  .proposal {
+    margin: 12px 0 0; padding: 12px 14px; border-radius: 8px;
+    background: var(--steel-soft); border: 1px solid #d5deea;
+  }
+  .proposal strong { color: var(--steel); }
+  .draft {
+    margin: 10px 0 0; padding: 12px 14px; background: #fff; border-radius: 8px;
+    border: 1px dashed var(--steel); font-size: 17px;
+  }
+  .draft .label { font-size: 13px; font-weight: 700; color: var(--steel); text-transform: uppercase; letter-spacing: .03em; margin: 0 0 6px; }
+  code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .92em; background: #f0ebe3; padding: 1px 5px; border-radius: 4px; }
+  label.check {
+    display: flex; gap: 10px; align-items: flex-start; margin-top: 12px;
+    font-size: 16px; cursor: pointer;
+  }
+  label.check input { margin-top: 4px; width: 18px; height: 18px; }
+  .compare { display: grid; gap: 10px; margin-top: 10px; }
+  @media (min-width: 720px) { .compare { grid-template-columns: 1fr 1fr; } }
+  .side { padding: 12px; border-radius: 8px; border: 1px solid var(--line); background: #fff; font-size: 16px; }
+  .side .cap { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin: 0 0 6px; }
+  .side.after { border-color: #c5d6c9; background: var(--green-soft); }
+  .submit-bar {
+    position: sticky; bottom: 0; margin: 32px -18px 0; padding: 16px 18px;
+    background: rgba(247,245,240,.94); border-top: 1px solid var(--line);
+    backdrop-filter: blur(8px);
+  }
+  button {
+    font: 600 17px/1.2 Inter, system-ui, sans-serif; min-height: 48px;
+    padding: 12px 20px; border-radius: 8px; cursor: pointer;
+    border: 1px solid transparent; background: var(--steel); color: #fff;
+  }
+  button:hover { background: #182e4c; }
+  .err { color: var(--red); font-size: 15px; margin: 8px 0 0; }
+  ul.tight { margin: 8px 0 0; padding-left: 1.2em; }
+  ul.tight li { margin: 4px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Правки demo-leads — к утверждению</h1>
+  <p class="lede">Приоритет сверху вниз. Красное — меняет первый взгляд заказчика. Испанскую версию делаю после утверждения этого списка.</p>
+  <p class="note">Ошибка в прошлом разборе: пустой <code>Polite decline 0</code> — норма при текущих порогах, корзина заполняется при других параметрах. Не трогаем.</p>
+
+  <div class="legend">
+    <span class="pill"><span class="dot must"></span> важно</span>
+    <span class="pill"><span class="dot should"></span> стоит</span>
+    <span class="pill"><span class="dot later"></span> позже / мягко</span>
+    <span class="pill"><span class="dot skip"></span> не трогать</span>
+  </div>
+
+  <!-- ========== INTRO / HOW TO READ ========== -->
+  <h2>2. Откуда понятно, что это вообще такое</h2>
+  <div class="item must">
+    <div class="meta"><span class="rank">P0</span><span class="tag must">важно</span></div>
+    <h3>Короткое введение: что за сообщения</h3>
+    <p>Сейчас заказчик попадает в цифры и корзины, но не сказано простым языком: это <strong>входящий день</strong> сервисной компании — заявки клиентов с формы, WhatsApp и Instagram, как открытый инбокс.</p>
+    <div class="proposal">
+      <strong>Предлагаю:</strong> один абзац-рамка сразу под заголовком (или вместо длинного scene). Без жаргона. Потом уже цифра и прогон.
+      <div class="draft">
+        <p class="label">Черновик EN</p>
+        <p>These are 40 customer messages that arrived in one day at a fictional AC and small-repair shop — website form, WhatsApp, and Instagram. Open any one: that is the raw inbox. Cheap rules clear the obvious noise. A model reads only what survives and routes it. A person only sees what still needs a human.</p>
+      </div>
+      <p class="why">Почему: отвечает на твой пункт 2 — «что это за сообщения». Одновременно чуть закрывает «как читать»: raw inbox → rules → model → person.</p>
+    </div>
+    <label class="check"><input type="checkbox" name="ok" value="intro"> Ок введение в таком духе</label>
+  </div>
+
+  <div class="item should">
+    <div class="meta"><span class="rank">P1</span><span class="tag should">стоит</span></div>
+    <h3>Подсказка порядка чтения (одна строка)</h3>
+    <div class="draft">
+      <p class="label">Черновик</p>
+      <p>Read top to bottom: the number a person still opens → where survivors went → who the rules closed (and why) → the raw pack.</p>
+    </div>
+    <p class="why">Необязательно, если введение уже ясное. Дешёвая страховка для тех, кто скроллит сразу в середину.</p>
+    <label class="check"><input type="checkbox" name="ok" value="howto"> Ок строку «как читать»</label>
+  </div>
+
+  <!-- ========== CUT / FIX LIST ========== -->
+  <h2>Лишнее / поправить — по приоритету</h2>
+
+  <div class="item must">
+    <div class="meta"><span class="rank">1</span><span class="tag must">важно</span></div>
+    <h3>Стек-бейджи: убрать FastAPI · Docker · Gemini</h3>
+    <p>Оставить: <strong>n8n · WhatsApp · Instagram · CRM</strong>.</p>
+    <p class="why">Заказчик нанимает под лиды и каналы, не под наш бэкенд. Gemini можно оставить только если хочешь явно сказать «модель», но тогда одной строкой в сноске цены, не в ряду с WhatsApp.</p>
+    <label class="check"><input type="checkbox" name="ok" value="stack"> Ок урезать стек</label>
+  </div>
+
+  <div class="item must">
+    <div class="meta"><span class="rank">2</span><span class="tag must">важно</span></div>
+    <h3>Текст компании (scene) — укоротить</h3>
+    <p>Сейчас два слоя: «made-up company…» + длинный summary из <code>business.json</code>. Вместе это стена.</p>
+    <div class="proposal">
+      <strong>Предлагаю</strong> заменить на короткую подпись под введением (или слить с введением выше):
+      <div class="draft">
+        <p class="label">Черновик</p>
+        <p><strong>Bayline Comfort Co.</strong>, Port Meridian — fictional stand-in for any shop that answers its own inbox. AC install and service, small plumbing and electrical.</p>
+      </div>
+      <p class="why">Имя фирмы нужно (показывает домен), биография — нет. Детали услуг уже в заявках.</p>
+    </div>
+    <label class="check"><input type="checkbox" name="ok" value="scene"> Ок короткий scene</label>
+  </div>
+
+  <div class="item must">
+    <div class="meta"><span class="rank">3</span><span class="tag must">важно</span></div>
+    <h3>Три дисклеймера → один</h3>
+    <div class="compare">
+      <div class="side"><p class="cap">Сейчас</p>recorded screening · synthetic · fictional company — три абзаца</div>
+      <div class="side after"><p class="cap">Предлагаю</p>Recorded run on synthetic requests. Bayline and Port Meridian are fictional. Changing thresholds re-runs the rules; the model answers stay the recorded ones.</div>
+    </div>
+    <p class="why">Один раз честно — доверие. Три раза — извинение.</p>
+    <label class="check"><input type="checkbox" name="ok" value="disclaimer"> Ок один дисклеймер</label>
+  </div>
+
+  <div class="item must">
+    <div class="meta"><span class="rank">4</span><span class="tag must">важно</span></div>
+    <h3><code>outside_service_area</code> — на что заменить</h3>
+    <p>В панели «Show why» сейчас печатается технический id правила. У группы сверху уже есть человеческий заголовок <em>Outside our service area</em>.</p>
+    <div class="proposal">
+      <strong>Рекомендую:</strong> строку с snake_case <em>убрать совсем</em> для правил. Оставить reason + цитату + Full message. Id заказчику не нужен.<br><br>
+      <strong>Запасной вариант:</strong> показывать человеческий ярлык из <code>RULE_LABELS</code> («Outside our service area»), не ключ.<br><br>
+      Для отказов модели вместо <code>model</code> — слово <strong>Model</strong> или вообще без этой строки (reason уже есть).
+    </div>
+    <p class="why">Кухня на витрине. Ярлык группы уже говорит то же самое — дубль в snake_case только шумит.</p>
+    <label class="check"><input type="checkbox" name="ok" value="ruleid-hide"> Убрать id полностью (рекомендую)</label>
+    <label class="check"><input type="checkbox" name="ok" value="ruleid-label"> Или показывать человеческий ярлык</label>
+  </div>
+
+  <div class="item must">
+    <div class="meta"><span class="rank">5</span><span class="tag must">важно</span></div>
+    <h3>Скоры 0.95 / 0.98 — что вместо float</h3>
+    <p>Смысл числа: насколько модель уверена в своём маршруте (0…1). Порог (confidence bar) отправляет слабые в disputed.</p>
+    <div class="proposal">
+      <strong>Рекомендую не «текст + скобки на всех», а уровни:</strong>
+      <ul class="tight">
+        <li><strong>≥ 0.90</strong> — ничего не писать (или тихое <em>Sure</em> без цифры). Причина уже в тексте карточки.</li>
+        <li><strong>0.70–0.89</strong> — <code>Likely (82%)</code></li>
+        <li><strong>&lt; 0.70</strong> — <code>Unsure (40%)</code> — такие обычно уже в disputed</li>
+      </ul>
+      Проценты вместо 0.95 — привычнее владельцу сервиса. Цифра только где она меняет решение.
+      <div class="draft">
+        <p class="label">Пример карточки</p>
+        <p>Helen Drake · form · Harbor District<br>Commercial AC install — needs a quote and a site visit.<br><span style="color:#5b6570">Sure</span></p>
+        <p style="margin-top:10px">Maya Ortiz · disputed<br>…<br><span style="color:#9c3b2e">Unsure (40%)</span></p>
+      </div>
+    </div>
+    <p class="why">Твой вариант «текст + цифра в скобках» хорош для середины и низа. На 0.95–1.00 цифра всё равно шум — прячем.</p>
+    <label class="check"><input type="checkbox" name="ok" value="score-levels"> Ок уровни Sure / Likely / Unsure</label>
+    <label class="check"><input type="checkbox" name="ok" value="score-always"> Или всегда текст + % в скобках на всех карточках</label>
+  </div>
+
+  <div class="item should">
+    <div class="meta"><span class="rank">6</span><span class="tag should">стоит</span></div>
+    <h3>Confidence bar — смысл и что делать</h3>
+    <p><strong>Смысл в коде:</strong> после модели, если <code>confidence &lt; bar</code> → заявка в disputed (человеку), даже если модель уже выбрала manager/calendar/… Отдельно в disputed летят цитаты не из текста — <em>бар на них не влияет</em>.</p>
+    <p>В этой пачке disputed в основном из битых цитат, поэтому подсказка «barely moves them» честная. На живом потоке с разбросом 0.55–0.92 бар начнёт резать. Даже здесь: поднять бар до <strong>0.95</strong> — Alex Kim (0.90) уедет в disputed.</p>
+    <div class="proposal">
+      <strong>Предлагаю оставить контроль</strong> (это реальное правило продукта), но:
+      <ul class="tight">
+        <li>переименовать в <strong>Minimum confidence to auto-route</strong> (или короче: <strong>Auto-route only above</strong>);</li>
+        <li>переписать note: <em>Below this, the model’s pick goes to a person. Quote failures always go to a person, whatever the bar.</em></li>
+        <li>добавить пресет <em>trust the model less</em> (bar → 0.95), чтобы на этой же пачке было видно движение;</li>
+        <li>не удалять — иначе теряется демонстрация «правило можно крутить».</li>
+      </ul>
+    </div>
+    <p class="why">Смысл барa — порог доверия к автомаршруту, не украшение. Сейчас он выглядит мёртвым из-за состава пачки и подписи, а не потому что фича пустая.</p>
+    <label class="check"><input type="checkbox" name="ok" value="conf-keep"> Ок: оставить + переименовать + пресет</label>
+    <label class="check"><input type="checkbox" name="ok" value="conf-hide"> Спрятать бар в этой демо-пачке</label>
+  </div>
+
+  <div class="item later">
+    <div class="meta"><span class="rank">7</span><span class="tag later">позже</span></div>
+    <h3>Схема n8n + цена модели</h3>
+    <p><strong>Схему оставить</strong> — для отклика «не чёрный ящик» она работает. Мягко: рядом кнопка/ссылка <em>Import this workflow into your n8n</em> (на GitHub export), не только в подвале.</p>
+    <p><strong>Цену</strong> оставить сноской внизу, не поднимать. Можно одной строкой: <em>Model cost this pack: about $0.004 on the 11 survivors.</em></p>
+    <p class="why">Не мешает первому экрану. Режет только если начнёт спорить с историей про WhatsApp — тогда в легенде схемы короче подписать каналы как «notify by role».</p>
+    <label class="check"><input type="checkbox" name="ok" value="diagram-cta"> Ок CTA Import рядом со схемой</label>
+  </div>
+
+  <div class="item skip">
+    <div class="meta"><span class="rank">—</span><span class="tag skip">не трогать</span></div>
+    <h3>Polite decline при 0</h3>
+    <p>Признаю ошибку прошлого разбора. Пустая корзина при дефолтных порогах — нормальный исход. При других параметрах заполняется. <strong>Не трогаем.</strong></p>
+  </div>
+
+  <!-- ========== MISSING ========== -->
+  <h2>Чего не хватало — предложения</h2>
+
+  <div class="item must">
+    <div class="meta"><span class="rank">A</span><span class="tag must">важно</span></div>
+    <h3>Главная цифра: сколько человек НЕ читает</h3>
+    <div class="compare">
+      <div class="side"><p class="cap">Сейчас</p>A person reads<br><strong>5 of 40</strong></div>
+      <div class="side after"><p class="cap">Предлагаю</p>A person never opens<br><strong>35 of 40</strong><br><span style="color:#5b6570;font-size:15px">opens only 5 — manager + disputed</span></div>
+    </div>
+    <p class="why">Так записано в спеке и в решении 03.09. Боль снимается с глаз — это и есть оффер.</p>
+    <label class="check"><input type="checkbox" name="ok" value="hero-skip"> Ок акцент на «не открывает»</label>
+  </div>
+
+  <div class="item must">
+    <div class="meta"><span class="rank">B</span><span class="tag must">важно</span></div>
+    <h3>Цитата / полный текст у выживших</h3>
+    <p>У правил есть «Show why». У Helen/Priya — только reason модели, карточка не раскрывается.</p>
+    <div class="proposal">
+      <strong>Предлагаю:</strong> на каждой карточке survivor — раскрытие как у closed: quote модели + Full message исходной заявки. Без этого обещание «every decision carries a quote» для половины экрана ложное.
+    </div>
+    <label class="check"><input type="checkbox" name="ok" value="survivor-why"> Ок раскрытие у survivors</label>
+  </div>
+
+  <div class="item should">
+    <div class="meta"><span class="rank">C</span><span class="tag should">стоит</span></div>
+    <h3>Артефакт «что уходит наружу»</h3>
+    <p>Не путать с пустым Polite decline. Нужен <em>образец</em> хотя бы одного исходящего: вежливый отказ <strong>или</strong> текст ссылки на календарь <strong>или</strong> карточка «что видит менеджер».</p>
+    <div class="proposal">
+      <strong>Рекомендую минимально:</strong> у корзины Calendar — одна строка-пример исходящего: <em>«Here’s your booking link for Lakeside, Thu 10:00–12:00»</em>. У Manager — <em>«CRM: hot lead · Harbor · commercial AC»</em>. Без новых экранов.
+    </div>
+    <p class="why">Заказчик покупает не сортировку ради сортировки, а то, что клиент и менеджер получают на выходе.</p>
+    <label class="check"><input type="checkbox" name="ok" value="outbound-sample"> Ок мини-образцы исходящего</label>
+  </div>
+
+  <div class="item should">
+    <div class="meta"><span class="rank">D</span><span class="tag should">стоит</span></div>
+    <h3>Before/after одной строкой в tally</h3>
+    <div class="draft">
+      <p class="label">Черновик</p>
+      <p>Without this: 40 to read. With this: 29 closed by rules · 4 book themselves · 2 waitlist · 5 need a person.</p>
+    </div>
+    <p class="why">Собирает картину дня без охоты по секциям. Цифры уже есть в tally — нужна одна фраза.</p>
+    <label class="check"><input type="checkbox" name="ok" value="tally-line"> Ок фраза before/after</label>
+  </div>
+
+  <div class="item later">
+    <div class="meta"><span class="rank">E</span><span class="tag later">позже</span></div>
+    <h3>CTA Import у схемы</h3>
+    <p>Контакта нет осознанно (правила площадок). Путь «забрать себе» — громче у автоматизации. Испанская версия — <strong>после</strong> утверждения и внедрения этого списка.</p>
+    <label class="check"><input type="checkbox" name="ok" value="es-after"> Подтверждаю: ES после правок</label>
+  </div>
+
+  <div class="submit-bar">
+    <form id="approve" onsubmit="event.preventDefault();
+      const boxes = [...document.querySelectorAll('input[name=ok]:checked')].map(i => i.value);
+      if (!boxes.length) { document.getElementById('err').textContent = 'Отметь хотя бы один пункт, или напиши комментарием по странице.'; return; }
+      document.getElementById('err').textContent = '';
+      window.lavish.queuePrompt('Утверждаю отмеченные правки demo-leads: ' + boxes.join(', '), {
+        tag: 'approval',
+        text: 'Approved: ' + boxes.join(', '),
+        data: { approved: boxes }
+      });
+    ">
+      <button type="submit">В очередь: утвердить отмеченное</button>
+      <p class="err" id="err"></p>
+      <p class="note" style="margin:8px 0 0">Потом жми Send to Agent в Lavish. Можно также кликать по блокам и писать правки прямо на странице.</p>
+    </form>
+  </div>
+</div>
+</body>
+</html>

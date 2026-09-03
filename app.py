@@ -37,6 +37,26 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 ROOT = pathlib.Path(__file__).resolve().parent
 RECORDING_PATH = ROOT / "data/judgments.json"
+README_PATH = ROOT / "README.md"
+# README "What it shows" counts: rewritten on --record, checked in --selftest.
+README_FUNNEL_RE = re.compile(
+    r"<!-- demo-funnel -->\n.*?<!-- /demo-funnel -->\n",
+    re.DOTALL,
+)
+_EN_MONTHS = (
+    "January February March April May June July August "
+    "September October November December"
+).split()
+_ES_MONTHS = (
+    "enero febrero marzo abril mayo junio julio agosto "
+    "septiembre octubre noviembre diciembre"
+).split()
+_EN_0_20 = (
+    "zero one two three four five six seven eight nine ten "
+    "eleven twelve thirteen fourteen fifteen sixteen seventeen "
+    "eighteen nineteen twenty"
+).split()
+_EN_TENS = {20: "twenty", 30: "thirty", 40: "forty"}
 # Where recording credentials come from. Both are optional: the page serves the
 # recorded run and never calls a model, so a deployment needs neither.
 ACCOUNTS = pathlib.Path(os.environ.get("VERTEX_ACCOUNTS_FILE", "")) if os.environ.get("VERTEX_ACCOUNTS_FILE") else pathlib.Path.home() / ".config/lead-demo/accounts.json"
@@ -710,7 +730,7 @@ def apply_es_overlay(out: dict) -> dict:
         buckets[key] = [paint(r) for r in rows]
     out["buckets"] = buckets
     src = dict(out.get("source") or {})
-    when = _pretty_when(str(src.get("recorded_at") or ""))
+    when = _pretty_when(str(src.get("recorded_at") or ""), lang="es")
     src["message"] = (
         f"Corrida grabada del {when} con solicitudes sintéticas. Bayline y Port "
         "Meridian son ficticios. El botón no llama al modelo. Cambiar umbrales "
@@ -752,12 +772,64 @@ def load_recording() -> dict | None:
     return rec
 
 
-def _pretty_when(iso: str) -> str:
+def _pretty_when(iso: str, *, lang: str = "en") -> str:
     try:
         dt = datetime.datetime.fromisoformat(iso.replace("Z", "+00:00"))
-        return f"{dt.day} {dt.strftime('%B %Y')}"
     except (ValueError, TypeError):
-        return (iso or "")[:10] or "an earlier run"
+        return (iso or "")[:10] or ("una corrida anterior" if lang == "es" else "an earlier run")
+    if lang == "es":
+        return f"{dt.day} de {_ES_MONTHS[dt.month - 1]} de {dt.year}"
+    return f"{dt.day} {_EN_MONTHS[dt.month - 1]} {dt.year}"
+
+
+def _en_words(n: int) -> str:
+    """Cardinal words for README funnel counts (0..40)."""
+    n = int(n)
+    if n < 0 or n > 40:
+        return str(n)
+    if n <= 20:
+        return _EN_0_20[n]
+    tens, ones = divmod(n, 10)
+    if ones == 0:
+        return _EN_TENS[tens * 10]
+    return f"{_EN_TENS[tens * 10]}-{_EN_0_20[ones]}"
+
+
+def demo_person_counts(out: dict) -> tuple[int, int, int]:
+    """human (manager+disputed), closed-by-rule, total - same as the page hero."""
+    total = int(out["funnel"]["in"])
+    dropped = int(out["funnel"]["dropped"])
+    human = len(out["buckets"]["manager"]) + len(out["buckets"]["disputed"])
+    return human, dropped, total
+
+
+def readme_funnel_block(human: int, dropped: int, total: int) -> str:
+    h, d, t = _en_words(human), _en_words(dropped), _en_words(total)
+    return (
+        "<!-- demo-funnel -->\n"
+        f"{h.capitalize()} of {t} requests reach a person. {d.capitalize()} are closed "
+        "by a rule, and every\n"
+        "closed one carries the name of the rule that closed it plus the sentence from the\n"
+        "request that triggered it. That is the point of the whole thing: **a rule can be\n"
+        "argued with and adjusted, a model's opinion cannot.** Move a threshold on the page\n"
+        "and the next run uses it.\n"
+        "<!-- /demo-funnel -->\n"
+    )
+
+
+def sync_readme_counts(out: dict | None = None) -> None:
+    """Rewrite the README funnel paragraph from assemble() so it cannot drift."""
+    if out is None:
+        out = assemble(dict(DEFAULT_CRITERIA))
+    if out is None:
+        raise SystemExit("no recording to sync README from")
+    human, dropped, total = demo_person_counts(out)
+    block = readme_funnel_block(human, dropped, total)
+    text = README_PATH.read_text(encoding="utf-8")
+    if not README_FUNNEL_RE.search(text):
+        raise SystemExit("README.md missing <!-- demo-funnel --> … <!-- /demo-funnel --> block")
+    README_PATH.write_text(README_FUNNEL_RE.sub(block, text, count=1), encoding="utf-8")
+    print("synced README funnel counts:", human, "to a person,", dropped, "closed by a rule")
 
 
 def _source(rec: dict) -> dict:
@@ -953,6 +1025,7 @@ def record_judgments(*, force: bool = False) -> None:
     RECORDING_PATH.write_text(
         json.dumps(rec, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print("wrote", RECORDING_PATH)
+    sync_readme_counts()
 
 
 @app.get("/boot")
@@ -1168,6 +1241,30 @@ def selftest() -> None:
     assert sum(len(out["buckets"][b]) for b in BUCKETS) == 40
     assert out["source"]["kind"] == "recorded"
     assert "does not call the model" in out["source"]["message"]
+
+    # Hero copy is language-neutral ("N / 40"); Spanish date has no English month.
+    html = _index_html()
+    assert 'hero-of"> of ' not in html, "hero still hardcodes English 'of'"
+    assert re.search(r'hero-of">\s*/\s*<span id="total"', html), html
+    human, dropped, total = demo_person_counts(out)
+    expected_readme = readme_funnel_block(human, dropped, total)
+    readme = README_PATH.read_text(encoding="utf-8")
+    got = README_FUNNEL_RE.search(readme)
+    assert got, "README.md missing <!-- demo-funnel --> block"
+    assert got.group(0) == expected_readme, (
+        "README funnel counts drifted from the recorded run; "
+        "they are rewritten by ./app.py --record"
+    )
+    es = apply_es_overlay(dict(out))
+    es_msg = es["source"]["message"]
+    for month in _EN_MONTHS:
+        assert month not in es_msg, f"English month {month!r} in ES source: {es_msg}"
+    assert _ES_MONTHS[
+        datetime.datetime.fromisoformat(
+            str(out["source"]["recorded_at"]).replace("Z", "+00:00")
+        ).month
+        - 1
+    ] in es_msg, es_msg
 
     # Recorded quotes are allowed to be inexact: the model sometimes stitches
     # two parts of a sentence. What we assert is that an unverified quote
