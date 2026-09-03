@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northline Ops — screen incoming proposals</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#151b23; --line:#252d38; --ink:#e6edf3; --dim:#8b949e;
+    --bad:#f0883e; --good:#3fb950; --acc:#58a6ff; --warn:#d2a8ff;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
+  .wrap{max-width:1180px;margin:0 auto;padding:40px 20px 80px}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:28px}
+  h1{font-size:clamp(24px,3.4vw,34px);margin:0 0 10px;letter-spacing:-.02em}
+  .lede{color:var(--dim);max-width:68ch;margin:0}
+  .note{margin-top:16px;font-size:13px;color:var(--dim);border-left:2px solid var(--line);padding-left:12px}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.09em;color:var(--dim);
+     font-weight:600;margin:0 0 12px}
+  .vacancy{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+     padding:16px 18px;margin-bottom:18px}
+  .vacancy h3{margin:0 0 4px;font-size:16px}
+  .vacancy .co{font-size:12.5px;color:var(--acc);font-family:var(--mono)}
+  .vacancy p{margin:8px 0 0;font-size:14.5px;color:#c9d1d9}
+  .crit{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+  @media(max-width:800px){.crit{grid-template-columns:1fr 1fr}}
+  label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--dim)}
+  label.chk{flex-direction:row;align-items:center;gap:8px;padding-top:18px}
+  input[type=number], input[type=text]{
+    background:var(--panel);border:1px solid var(--line);color:var(--ink);
+    padding:8px 10px;border-radius:8px;font-size:14px}
+  input:focus{outline:none;border-color:var(--acc)}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 8px}
+  button{background:var(--acc);border:0;color:#04121f;font-weight:600;
+     padding:11px 20px;border-radius:8px;cursor:pointer;font-size:15px}
+  button.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:500}
+  button:disabled{opacity:.5;cursor:default}
+  .funnel{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px}
+  .funnel .stat{background:var(--panel);border:1px solid var(--line);border-radius:9px;
+     padding:12px 14px;min-width:140px}
+  .funnel .n{font-size:26px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+  .funnel .k{font-size:12px;color:var(--dim);margin-top:4px}
+  .funnel .stat.save .n{color:var(--good)}
+  .byrule{font-size:12.5px;color:var(--dim);font-family:var(--mono);margin:0 0 18px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px;align-items:start}
+  @media(max-width:800px){.cols{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+  .card.l{border-top:2px solid var(--bad)} .card.r{border-top:2px solid var(--good)}
+  .card h3{margin:0 0 4px;font-size:15px}
+  .card .sub{margin:0 0 14px;font-size:12.5px;color:var(--dim);font-family:var(--mono)}
+  .price{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:0 0 14px;
+     padding:13px 15px;background:#0d1117;border:1px solid var(--line);border-radius:9px}
+  .price .big{font-size:27px;font-weight:700;letter-spacing:-.02em;line-height:1.1;
+     font-variant-numeric:tabular-nums}
+  .card.l .price .big{color:var(--bad)}
+  .card.r .price .big{color:var(--good)}
+  .price .unit{font-size:13px;color:var(--dim)}
+  .price .meta{flex-basis:100%;margin-top:7px;font-family:var(--mono);font-size:11.5px;
+     color:var(--dim);line-height:1.5}
+  .why{margin:0 0 14px;font-size:13px;line-height:1.55;color:var(--dim);
+     border-left:2px solid var(--line);padding-left:11px}
+  .app{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;background:#0d1117}
+  .app.head{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+  .app .who{font-weight:600;font-size:14px}
+  .app .hd{font-size:12px;color:var(--dim);font-family:var(--mono)}
+  .badge{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+     padding:2px 7px;border-radius:999px;font-family:var(--mono)}
+  .badge.pass{color:#0d1117;background:var(--good)}
+  .badge.reject{color:#0d1117;background:var(--bad)}
+  .badge.uncertain{color:#0d1117;background:var(--warn)}
+  .badge.pending{color:var(--dim);background:#21262d}
+  .layer{font-size:11.5px;color:var(--acc);font-family:var(--mono)}
+  .quote{margin:8px 0 0;font-size:13.5px;color:#c9d1d9;border-left:2px solid var(--acc);
+     padding-left:10px}
+  .quote::before{content:"“"} .quote::after{content:"”"}
+  .reason{margin:6px 0 0;font-size:13px;color:var(--dim)}
+  details.body{margin-top:8px}
+  details.body summary{cursor:pointer;font-size:12px;color:var(--dim)}
+  details.body pre{white-space:pre-wrap;font-family:inherit;font-size:13px;color:#c9d1d9;
+     margin:8px 0 0;line-height:1.5}
+  .spin{color:var(--dim);font-family:var(--mono);font-size:13px}
+  .err{color:var(--bad);font-size:14px;margin:8px 0}
+  .source{margin:12px 0 0;font-size:13px;color:var(--dim);
+     border-left:2px solid var(--acc);padding-left:12px}
+  footer{margin-top:60px;border-top:1px solid var(--line);padding-top:22px;
+     font-size:13.5px;color:var(--dim)}
+  footer a{color:var(--acc)}
+  .synth{font-size:12px;color:var(--dim);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Same 12 proposals, two ways to screen them</h1>
+  <p class="lede">The usual request: qualify incoming applications before a person sees them. The naive way is to send every document to a model. It is expensive, and the client cannot see why someone was dropped. The other way is a cheap mechanical layer first, then the model only on who survived — with a quote from the text under every decision.</p>
+  <p class="note">Left: every proposal goes to the model. Right: rules fire first, for free. Same model, same prompt, same 12 synthetic applications. Change a criterion below and run again - the funnel moves. Model opinions are a recorded screening, not a live call on each visitor.</p>
+  <p class="synth">All applications are synthetic. No real people.</p>
+</header>
+
+<h2>The vacancy</h2>
+<div class="vacancy">
+  <div class="co" id="co"></div>
+  <h3 id="title"></h3>
+  <p id="summary"></p>
+</div>
+
+<h2>Criteria — edit and run</h2>
+<div class="crit">
+  <label>Min words<input type="number" id="min_words" min="1" max="5000"></label>
+  <label>Rate min, USD/hr<input type="number" id="rate_min" min="0" max="1000"></label>
+  <label>Rate max, USD/hr<input type="number" id="rate_max" min="0" max="1000"></label>
+  <label>Hours min / week<input type="number" id="hours_min" min="0" max="80"></label>
+  <label>Hours max / week<input type="number" id="hours_max" min="0" max="80"></label>
+  <label>Must-have skills<input type="text" id="must_have" placeholder="n8n, comma-separated"></label>
+  <label>Job tokens<input type="text" id="client_tokens" placeholder="company, stack"></label>
+  <label class="chk"><input type="checkbox" id="require_rate"> Require a rate</label>
+  <label class="chk"><input type="checkbox" id="require_hours"> Require hours/week</label>
+  <label class="chk"><input type="checkbox" id="require_portfolio"> Require a portfolio link</label>
+  <label class="chk"><input type="checkbox" id="reject_off_platform"> Drop off-platform asks</label>
+</div>
+<div class="actions">
+  <button id="go" type="button">Run screening</button>
+  <button id="reset" class="ghost" type="button">Reset criteria</button>
+</div>
+<p class="note" style="margin-top:8px">Try turning off "Require a portfolio link" or raising the rate ceiling to 200. The next run is a different funnel.</p>
+
+<div class="funnel" id="funnel" hidden></div>
+<p class="byrule" id="byrule" hidden></p>
+<p class="source" id="source" hidden></p>
+<p class="err" id="err" hidden></p>
+
+<div class="cols">
+  <div class="card l">
+    <h3>Every proposal to the model</h3>
+    <p class="sub">no rules · 12 calls on this pack</p>
+    <div class="price" id="pr-l" hidden>
+      <span class="big" id="pr-l-big"></span><span class="unit">per 1,000 packs</span>
+      <span class="meta" id="pr-l-meta"></span>
+    </div>
+    <p class="why">The model sees spam, templates and off-platform asks too. You pay for them, and the reason is an opinion, not a rule you can point at.</p>
+    <div id="naive"><span class="spin">— set the criteria and run —</span></div>
+  </div>
+  <div class="card r">
+    <h3>Rules first, model on survivors</h3>
+    <p class="sub">mechanical layer · then the same model</p>
+    <div class="price" id="pr-r" hidden>
+      <span class="big" id="pr-r-big"></span><span class="unit">per 1,000 packs</span>
+      <span class="meta" id="pr-r-meta"></span>
+    </div>
+    <p class="why">Dropped applications show the rule and a phrase from the text. The model is only asked about people the rules could not decide.</p>
+    <div id="structured"><span class="spin">— set the criteria and run —</span></div>
+  </div>
+</div>
+
+<footer>Demo built by Oleg Minkin · n8n automation, integrations and AI agents · <a href="https://demo-support.om-dev.uk">another case</a></footer>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+let DEFAULTS = null;
+
+function csv(s){
+  return (s||"").split(",").map(x=>x.trim()).filter(Boolean);
+}
+function criteriaFromForm(){
+  return {
+    min_words: +$("min_words").value,
+    rate_min: +$("rate_min").value,
+    rate_max: +$("rate_max").value,
+    hours_min: +$("hours_min").value,
+    hours_max: +$("hours_max").value,
+    must_have: csv($("must_have").value),
+    client_tokens: csv($("client_tokens").value),
+    require_rate: $("require_rate").checked,
+    require_hours: $("require_hours").checked,
+    require_portfolio: $("require_portfolio").checked,
+    reject_off_platform: $("reject_off_platform").checked,
+  };
+}
+function fillForm(c){
+  $("min_words").value=c.min_words;
+  $("rate_min").value=c.rate_min;
+  $("rate_max").value=c.rate_max;
+  $("hours_min").value=c.hours_min;
+  $("hours_max").value=c.hours_max;
+  $("must_have").value=(c.must_have||[]).join(", ");
+  $("client_tokens").value=(c.client_tokens||[]).join(", ");
+  $("require_rate").checked=!!c.require_rate;
+  $("require_hours").checked=!!c.require_hours;
+  $("require_portfolio").checked=!!c.require_portfolio;
+  $("reject_off_platform").checked=!!c.reject_off_platform;
+}
+function money(v, dp){
+  return "US$ " + v.toLocaleString("en-US",{minimumFractionDigits:dp, maximumFractionDigits:dp});
+}
+function esc(s){
+  return String(s||"").replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+}
+function card(row){
+  const dec = row.decision || "pending";
+  const layer = row.rule
+    ? `rule: ${esc(row.rule)}`
+    : (row.layer==="model" ? "model" : "rules");
+  const quote = row.quote ? `<p class="quote">${esc(row.quote)}</p>` : "";
+  const reason = row.reason ? `<p class="reason">${esc(row.reason)}${row.rule_label ? " · "+esc(row.rule_label) : ""}</p>` : "";
+  return `<article class="app">
+    <div class="head">
+      <span class="badge ${esc(dec)}">${esc(dec)}</span>
+      <span class="who">${esc(row.name)}</span>
+      <span class="hd">${esc(row.headline)}</span>
+      <span class="layer">${layer}</span>
+    </div>
+    ${quote}${reason}
+    <details class="body"><summary>full text</summary><pre>${esc(row.body)}</pre></details>
+  </article>`;
+}
+function paintList(id, rows, empty){
+  const el = $(id);
+  if(!rows){ el.innerHTML = `<span class="spin">${empty}</span>`; return; }
+  el.innerHTML = rows.map(card).join("");
+}
+function paintFunnel(f){
+  $("funnel").hidden = false;
+  $("funnel").innerHTML = `
+    <div class="stat"><div class="n">${f.in}</div><div class="k">in</div></div>
+    <div class="stat"><div class="n">${f.dropped}</div><div class="k">dropped by rules</div></div>
+    <div class="stat"><div class="n">${f.to_model}</div><div class="k">sent to the model</div></div>
+    <div class="stat save"><div class="n">${f.saved}</div><div class="k">model calls saved</div></div>`;
+  const bits = Object.entries(f.by_rule||{}).map(([k,v])=>`${k} ×${v}`);
+  $("byrule").hidden = bits.length===0;
+  $("byrule").textContent = bits.length ? "Rules that fired: "+bits.join(" · ") : "";
+}
+function paintPrice(side, u){
+  if(!u){ $("pr-"+side).hidden = true; return; }
+  $("pr-"+side+"-big").textContent = money(u.cost_per_1000, 2);
+  $("pr-"+side+"-meta").textContent =
+    `${u.model} · ${u.calls} call${u.calls===1?"":"s"} · ${u.tokens_in.toLocaleString("en-US")} tokens · ${u.seconds}s · ${money(u.cost,4)} this pack`;
+  $("pr-"+side).hidden = false;
+}
+
+function looksLikeTrace(s){
+  return /Traceback|ClientError|RESOURCE_EXHAUSTED|Quota exceeded/.test(s||"");
+}
+async function run(){
+  $("go").disabled = true;
+  $("err").hidden = true;
+  $("source").hidden = true;
+  $("pr-l").hidden = true; $("pr-r").hidden = true;
+  const criteria = criteriaFromForm();
+  paintList("naive", null, "screening…");
+  paintList("structured", null, "screening…");
+  try{
+    const r = await fetch("/run", {
+      method:"POST", headers:{"content-type":"application/json"},
+      body: JSON.stringify({criteria})
+    });
+    const text = await r.text();
+    if(looksLikeTrace(text)){
+      $("err").hidden = false;
+      $("err").textContent = "The live model is unavailable. This demo should show a recorded screening instead.";
+      return;
+    }
+    let d = {};
+    try { d = JSON.parse(text); }
+    catch { throw new Error("The screening could not run."); }
+    if(!r.ok){
+      $("err").hidden = false;
+      $("err").textContent = d.message || "The screening could not run.";
+      if(d.funnel) paintFunnel(d.funnel);
+      if(d.structured) paintList("structured", d.structured, "");
+      if(d.naive) paintList("naive", d.naive, "");
+      else paintList("naive", null, "No recorded screening to show.");
+      return;
+    }
+    paintFunnel(d.funnel);
+    paintList("structured", d.structured, "");
+    paintList("naive", d.naive, "");
+    paintPrice("l", d.usage && d.usage.naive);
+    paintPrice("r", d.usage && d.usage.structured);
+    if(d.source && d.source.message){
+      $("source").hidden = false;
+      $("source").textContent = d.source.message;
+    }
+  }catch(e){
+    $("err").hidden = false;
+    const msg = String(e && e.message || "");
+    $("err").textContent = looksLikeTrace(msg)
+      ? "The live model is unavailable. This demo should show a recorded screening instead."
+      : (msg || "Something broke.");
+  }finally{
+    $("go").disabled = false;
+  }
+}
+
+$("go").onclick = run;
+$("reset").onclick = () => { if(DEFAULTS) fillForm(DEFAULTS); };
+
+fetch("/boot").then(r=>r.json()).then(d=>{
+  DEFAULTS = d.criteria;
+  $("co").textContent = d.vacancy.company;
+  $("title").textContent = d.vacancy.title;
+  $("summary").textContent = d.vacancy.summary;
+  fillForm(d.criteria);
+});
+</script>
+</body>
+</html>

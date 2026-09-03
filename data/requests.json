@@ -1,0 +1,322 @@
+[
+  {
+    "id": "r01",
+    "channel": "instagram",
+    "time": "2026-09-02T07:12:00",
+    "name": "GrowthBoost Lab",
+    "text": "Hey! We help local HVAC brands get 500+ leads/mo. Buy our SEO package this week and get free Instagram growth. Click here for a demo call.",
+    "client": {"handle": "@growthboostlab", "phone": null, "email": null, "area": null}
+  },
+  {
+    "id": "r02",
+    "channel": "whatsapp",
+    "time": "2026-09-02T07:41:00",
+    "name": "Unknown",
+    "text": "hi",
+    "client": {"handle": null, "phone": "+1-555-0101", "email": null, "area": null}
+  },
+  {
+    "id": "r03",
+    "channel": "form",
+    "time": "2026-09-02T08:05:00",
+    "name": "Nora Ellison",
+    "text": "Need AC repair today. I am in Cedar Falls near the old mill, unit not cooling since yesterday.",
+    "client": {"handle": null, "phone": null, "email": "nora.ellison@example.com", "area": "Cedar Falls"}
+  },
+  {
+    "id": "r04",
+    "channel": "whatsapp",
+    "time": "2026-09-02T08:18:00",
+    "name": "Pete Lang",
+    "text": "Can you redo my whole roof? Shingles are lifting on the south side after the storm.",
+    "client": {"handle": null, "phone": "+1-555-0104", "email": null, "area": "Midtown"}
+  },
+  {
+    "id": "r05",
+    "channel": "whatsapp",
+    "time": "2026-09-02T08:33:00",
+    "name": "Maya Ortiz",
+    "text": "Hi, AC in our Midtown office stopped overnight. Two wall units, both blowing warm. Can someone come today? Budget is fine, just need cool air for the staff.",
+    "client": {"handle": null, "phone": "+1-555-0105", "email": null, "area": "Midtown"}
+  },
+  {
+    "id": "r06",
+    "channel": "form",
+    "time": "2026-09-02T08:47:00",
+    "name": "Sam Keene",
+    "text": "Thermostat battery maybe? Harbor District apt. Only want a quick look, cash $40 max.",
+    "client": {"handle": null, "phone": null, "email": "sam.keene@example.com", "area": "Harbor District"}
+  },
+  {
+    "id": "r07",
+    "channel": "instagram",
+    "time": "2026-09-02T09:02:00",
+    "name": "Jules Park",
+    "text": "Please come tonight at 10pm, Lakeside. Guest room AC is loud and I cannot sleep. Need you after hours.",
+    "client": {"handle": "@julespark", "phone": null, "email": null, "area": "Lakeside"}
+  },
+  {
+    "id": "r08",
+    "channel": "form",
+    "time": "2026-09-02T09:15:00",
+    "name": "CryptoVista",
+    "text": "Earn from home with our crypto signal group. Limited spots. Message back to join the VIP list.",
+    "client": {"handle": null, "phone": null, "email": "promo@cryptovista.example", "area": null}
+  },
+  {
+    "id": "r09",
+    "channel": "whatsapp",
+    "time": "2026-09-02T09:28:00",
+    "name": "Ivy Cho",
+    "text": "Install a new split AC in Northbridge, 2bed condo. Prefer next week.",
+    "client": {"handle": null, "phone": "+1-555-0109", "email": null, "area": "Northbridge"}
+  },
+  {
+    "id": "r10",
+    "channel": "form",
+    "time": "2026-09-02T09:44:00",
+    "name": "Helen Drake",
+    "text": "Looking to install a ductless mini-split in our Harbor District shop. About 400 sq ft retail. Need a quote and earliest install window this month.",
+    "client": {"handle": null, "phone": null, "email": "helen.drake@example.com", "area": "Harbor District"}
+  },
+  {
+    "id": "r11",
+    "channel": "instagram",
+    "time": "2026-09-02T10:01:00",
+    "name": "benji",
+    "text": "???",
+    "client": {"handle": "@benji_x", "phone": null, "email": null, "area": null}
+  },
+  {
+    "id": "r12",
+    "channel": "whatsapp",
+    "time": "2026-09-02T10:16:00",
+    "name": "Owen Blake",
+    "text": "Annual AC service for Lakeside house, one outdoor unit. Last filter change was spring. Weekday mornings work.",
+    "client": {"handle": null, "phone": "+1-555-0112", "email": null, "area": "Lakeside"}
+  },
+  {
+    "id": "r13",
+    "channel": "form",
+    "time": "2026-09-02T10:29:00",
+    "name": "Rita Gomez",
+    "text": "Need a wedding catering quote for 80 guests in Midtown, Saturday evening.",
+    "client": {"handle": null, "phone": null, "email": "rita.gomez@example.com", "area": "Midtown"}
+  },
+  {
+    "id": "r14",
+    "channel": "instagram",
+    "time": "2026-09-02T10:41:00",
+    "name": "Chris Nolan",
+    "text": "Oakridge home - smart thermostat keeps disconnecting from wifi. Can you replace it with something reliable? Happy to book a slot.",
+    "client": {"handle": "@chris.nolan.pm", "phone": null, "email": null, "area": "Oakridge"}
+  },
+  {
+    "id": "r15",
+    "channel": "whatsapp",
+    "time": "2026-09-02T10:55:00",
+    "name": "Maya Ortiz",
+    "text": "Just checking again - Midtown office still hot. Did you get my earlier message about the two wall units?",
+    "client": {"handle": null, "phone": "+1-555-0105", "email": null, "area": "Midtown"}
+  },
+  {
+    "id": "r16",
+    "channel": "form",
+    "time": "2026-09-02T11:08:00",
+    "name": "Tom Bradley",
+    "text": "AC not cooling in Redwood Heights. Three bedroom, upstairs warmer than downstairs.",
+    "client": {"handle": null, "phone": null, "email": "tom.bradley@example.com", "area": "Redwood Heights"}
+  },
+  {
+    "id": "r17",
+    "channel": "whatsapp",
+    "time": "2026-09-02T11:22:00",
+    "name": "Lina Vu",
+    "text": "Harbor District. Tiny leak under kitchen sink, maybe washer. Can you do it for $50?",
+    "client": {"handle": null, "phone": "+1-555-0117", "email": null, "area": "Harbor District"}
+  },
+  {
+    "id": "r18",
+    "channel": "form",
+    "time": "2026-09-02T11:37:00",
+    "name": "Greg Holt",
+    "text": "Midtown loft AC dead. Please come Sunday at 7am before my flight. No other time works.",
+    "client": {"handle": null, "phone": null, "email": "greg.holt@example.com", "area": "Midtown"}
+  },
+  {
+    "id": "r19",
+    "channel": "instagram",
+    "time": "2026-09-02T11:51:00",
+    "name": "FollowFarm",
+    "text": "Buy followers and likes for your business page. Cheap packages, instant delivery. DM for price list.",
+    "client": {"handle": "@followfarm", "phone": null, "email": null, "area": null}
+  },
+  {
+    "id": "r20",
+    "channel": "whatsapp",
+    "time": "2026-09-02T12:06:00",
+    "name": "Priya Shah",
+    "text": "Voice note transcript: yeah so um the AC in our Oakridge clinic waiting room is dripping on the floor and smelling moldy, patients noticed, can you inspect and give options today or tomorrow",
+    "client": {"handle": null, "phone": "+1-555-0120", "email": null, "area": "Oakridge"}
+  },
+  {
+    "id": "r21",
+    "channel": "form",
+    "time": "2026-09-02T12:19:00",
+    "name": "Dan Ruiz",
+    "text": "Looking for someone to build a new company website and Google Ads setup. Midtown startup.",
+    "client": {"handle": null, "phone": null, "email": "dan.ruiz@example.com", "area": "Midtown"}
+  },
+  {
+    "id": "r22",
+    "channel": "whatsapp",
+    "time": "2026-09-02T12:33:00",
+    "name": "Unknown",
+    "text": "Voice note transcript: um yeah so uh wait hold on... okay nevermind",
+    "client": {"handle": null, "phone": "+1-555-0122", "email": null, "area": null}
+  },
+  {
+    "id": "r23",
+    "channel": "instagram",
+    "time": "2026-09-02T12:48:00",
+    "name": "Alex Kim",
+    "text": "something wrong with the air in Midtown apt. idk if its the AC or just stuffy. maybe you can tell",
+    "client": {"handle": "@alexkim_pm", "phone": null, "email": null, "area": "Midtown"}
+  },
+  {
+    "id": "r24",
+    "channel": "whatsapp",
+    "time": "2026-09-02T13:02:00",
+    "name": "Fran Wells",
+    "text": "Need duct cleaning at my place in Millfield. Whole house, pets, lots of dust.",
+    "client": {"handle": null, "phone": "+1-555-0124", "email": null, "area": "Millfield"}
+  },
+  {
+    "id": "r25",
+    "channel": "form",
+    "time": "2026-09-02T13:17:00",
+    "name": "Omar Diaz",
+    "text": "Oakridge. Outlet in bathroom dead. Only if you can do it for under $60 cash.",
+    "client": {"handle": null, "phone": null, "email": "omar.diaz@example.com", "area": "Oakridge"}
+  },
+  {
+    "id": "r26",
+    "channel": "whatsapp",
+    "time": "2026-09-02T13:31:00",
+    "name": "Nina Frost",
+    "text": "Lakeside - fridge and AC both acting up. Can a tech come at 9pm tonight? Kids sleeping earlier than that.",
+    "client": {"handle": null, "phone": "+1-555-0126", "email": null, "area": "Lakeside"}
+  },
+  {
+    "id": "r27",
+    "channel": "form",
+    "time": "2026-09-02T13:46:00",
+    "name": "Paula Reed",
+    "text": "Harbor District townhouse. Thinking about duct cleaning and a spring AC tune-up, but we are traveling until late October. Maybe put us on a list for then?",
+    "client": {"handle": null, "phone": null, "email": "paula.reed@example.com", "area": "Harbor District"}
+  },
+  {
+    "id": "r28",
+    "channel": "whatsapp",
+    "time": "2026-09-02T14:00:00",
+    "name": "Owen Blake",
+    "text": "Owen again - still need that Lakeside annual AC service. Morning slots preferred.",
+    "client": {"handle": null, "phone": "+1-555-0112", "email": null, "area": "Lakeside"}
+  },
+  {
+    "id": "r29",
+    "channel": "instagram",
+    "time": "2026-09-02T14:14:00",
+    "name": "Kara Mills",
+    "text": "Do you do dog walking in Midtown? Two labs, weekday afternoons.",
+    "client": {"handle": "@kara.mills", "phone": null, "email": null, "area": "Midtown"}
+  },
+  {
+    "id": "r30",
+    "channel": "form",
+    "time": "2026-09-02T14:28:00",
+    "name": "Victor Hale",
+    "text": "We manage a 12-unit building in Midtown. Need full AC install quotes for vacant units 3B and 5A, plus a maintenance visit for the lobby system that keeps tripping. Budget is open for a proper multi-unit job.",
+    "client": {"handle": null, "phone": null, "email": "victor.hale@example.com", "area": "Midtown"}
+  },
+  {
+    "id": "r31",
+    "channel": "whatsapp",
+    "time": "2026-09-02T14:43:00",
+    "name": "Sue Park",
+    "text": "AC install for a cafe in South Pier. Walk-in cooler also needs a look if you handle that.",
+    "client": {"handle": null, "phone": "+1-555-0131", "email": null, "area": "South Pier"}
+  },
+  {
+    "id": "r32",
+    "channel": "form",
+    "time": "2026-09-02T14:57:00",
+    "name": "Mark Ellis",
+    "text": "Oakridge. Water heater making noise and AC filter overdue. Please come Saturday at 8pm only window I have.",
+    "client": {"handle": null, "phone": null, "email": "mark.ellis@example.com", "area": "Oakridge"}
+  },
+  {
+    "id": "r33",
+    "channel": "whatsapp",
+    "time": "2026-09-02T15:11:00",
+    "name": "LeadEngine",
+    "text": "Partner with our marketing agency! We sell exclusive HVAC leads in your city. Reply YES for the media kit.",
+    "client": {"handle": null, "phone": "+1-555-0199", "email": null, "area": null}
+  },
+  {
+    "id": "r34",
+    "channel": "instagram",
+    "time": "2026-09-02T15:26:00",
+    "name": "Tess Quinn",
+    "text": "Midtown studio - swap a thermostat, that is all. Can you do $35?",
+    "client": {"handle": "@tessquinn", "phone": null, "email": null, "area": "Midtown"}
+  },
+  {
+    "id": "r35",
+    "channel": "form",
+    "time": "2026-09-02T15:40:00",
+    "name": "anon",
+    "text": "hello are you there",
+    "client": {"handle": null, "phone": null, "email": "anon35@example.com", "area": null}
+  },
+  {
+    "id": "r36",
+    "channel": "whatsapp",
+    "time": "2026-09-02T15:55:00",
+    "name": "Bill Orth",
+    "text": "Full kitchen remodel quote - cabinets, counters, flooring. Lakeside house.",
+    "client": {"handle": null, "phone": "+1-555-0136", "email": null, "area": "Lakeside"}
+  },
+  {
+    "id": "r37",
+    "channel": "form",
+    "time": "2026-09-02T16:09:00",
+    "name": "Gina Torres",
+    "text": "Harbor District. New washer delivered, need hookup and also the hallway outlet sparks when I plug anything in. Can you do both on one visit?",
+    "client": {"handle": null, "phone": null, "email": "gina.torres@example.com", "area": "Harbor District"}
+  },
+  {
+    "id": "r38",
+    "channel": "whatsapp",
+    "time": "2026-09-02T16:22:00",
+    "name": "Priya Shah",
+    "text": "Following up on the Oakridge clinic drip and mold smell. Please confirm if a tech is coming.",
+    "client": {"handle": null, "phone": "+1-555-0120", "email": null, "area": "Oakridge"}
+  },
+  {
+    "id": "r39",
+    "channel": "instagram",
+    "time": "2026-09-02T16:38:00",
+    "name": "Ryan Cole",
+    "text": "Lakeside condo AC not cooling. Sunday at 10am is the only time I am home - after-hours fee is fine, just book me.",
+    "client": {"handle": "@ryancole_pm", "phone": null, "email": null, "area": "Lakeside"}
+  },
+  {
+    "id": "r40",
+    "channel": "form",
+    "time": "2026-09-02T16:52:00",
+    "name": "Elena Brooks",
+    "text": "We are moving into an Oakridge apartment next month and will need an AC service plus thermostat check once we have keys. Not urgent yet - is there a waitlist or newsletter for openings?",
+    "client": {"handle": null, "phone": null, "email": "elena.brooks@example.com", "area": "Oakridge"}
+  }
+]

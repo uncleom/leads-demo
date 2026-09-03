@@ -1,0 +1,336 @@
+{
+  "recorded_at": "2026-09-03T18:33:46Z",
+  "model": "gemini-2.5-flash",
+  "judgments": {
+    "r01": {
+      "decision": "decline",
+      "quote": "We help local HVAC brands get 500+ leads/mo. Buy our SEO package this week and get free Instagram growth.",
+      "reason": "The request is a solicitation for marketing services, not a request for HVAC or related services provided by Bayline Comfort Co.",
+      "confidence": 1.0,
+      "tokens_in": 454,
+      "tokens_out": 84,
+      "cost": 0.0003462,
+      "seconds": 7.0
+    },
+    "r02": {
+      "decision": "uncertain",
+      "quote": "hi",
+      "reason": "The request text is too vague to determine the customer's needs or intent.",
+      "confidence": 1.0,
+      "tokens_in": 417,
+      "tokens_out": 50,
+      "cost": 0.0002501,
+      "seconds": 3.2
+    },
+    "r03": {
+      "decision": "decline",
+      "quote": "I am in Cedar Falls near the old mill",
+      "reason": "The customer's location, Cedar Falls, is outside of the company's defined service area.",
+      "confidence": 1.0,
+      "tokens_in": 436,
+      "tokens_out": 61,
+      "cost": 0.0002833,
+      "seconds": 4.7
+    },
+    "r04": {
+      "decision": "decline",
+      "quote": "Can you redo my whole roof? Shingles are lifting on the south side after the storm.",
+      "reason": "The requested service of redoing a roof is outside the company's listed offerings, which focus on AC, minor plumbing, and electrical services.",
+      "confidence": 1.0,
+      "tokens_in": 433,
+      "tokens_out": 81,
+      "cost": 0.0003324,
+      "seconds": 4.1
+    },
+    "r05": {
+      "decision": "uncertain",
+      "quote": "AC in our Midtown office stopped overnight. Two wall units, both blowing warm. Can someone come today? Budget is fine.",
+      "reason": "Model cited a phrase that is not in the request",
+      "confidence": 0.4,
+      "tokens_in": 449,
+      "tokens_out": 83,
+      "cost": 0.0003422,
+      "seconds": 4.7
+    },
+    "r06": {
+      "decision": "decline",
+      "quote": "cash $40 max.",
+      "reason": "The customer's stated maximum payment of $40 is below the company's minimum order of $75.",
+      "confidence": 1.0,
+      "tokens_in": 436,
+      "tokens_out": 63,
+      "cost": 0.0002883,
+      "seconds": 3.8
+    },
+    "r07": {
+      "decision": "manager",
+      "quote": "Guest room AC is loud and I cannot sleep. Need you after hours.",
+      "reason": "The customer requests an after-hours AC repair at a specific time, which requires human coordination for scheduling and surcharge communication.",
+      "confidence": 0.9,
+      "tokens_in": 440,
+      "tokens_out": 71,
+      "cost": 0.0003095,
+      "seconds": 7.8
+    },
+    "r08": {
+      "decision": "decline",
+      "quote": "Earn from home with our crypto signal group. Limited spots. Message back to join the VIP list.",
+      "reason": "The request is unsolicited spam and completely unrelated to the services offered by Bayline Comfort Co.",
+      "confidence": 1.0,
+      "tokens_in": 437,
+      "tokens_out": 71,
+      "cost": 0.0003086,
+      "seconds": 4.1
+    },
+    "r09": {
+      "decision": "decline",
+      "quote": "Install a new split AC in Northbridge, 2bed condo. Prefer next week.",
+      "reason": "The requested service location, Northbridge, is outside the company's defined service area.",
+      "confidence": 1.0,
+      "tokens_in": 433,
+      "tokens_out": 69,
+      "cost": 0.0003024,
+      "seconds": 4.9
+    },
+    "r10": {
+      "decision": "manager",
+      "quote": "Need a quote and earliest install window this month.",
+      "reason": "The request is for a commercial AC installation, which requires a manager's assessment for quoting and scheduling.",
+      "confidence": 0.95,
+      "tokens_in": 449,
+      "tokens_out": 64,
+      "cost": 0.0002947,
+      "seconds": 13.7
+    },
+    "r11": {
+      "decision": "uncertain",
+      "quote": "???",
+      "reason": "The request text is empty, making it impossible to determine the nature of the service needed.",
+      "confidence": 1.0,
+      "tokens_in": 418,
+      "tokens_out": 52,
+      "cost": 0.00025540000000000003,
+      "seconds": 3.2
+    },
+    "r12": {
+      "decision": "calendar",
+      "quote": "Annual AC service for Lakeside house, one outdoor unit. Last filter change was spring. Weekday mornings work.",
+      "reason": "The request is for a standard annual AC service for a single unit within the service area, making it suitable for direct scheduling.",
+      "confidence": 1.0,
+      "tokens_in": 436,
+      "tokens_out": 79,
+      "cost": 0.0003283,
+      "seconds": 4.6
+    },
+    "r13": {
+      "decision": "decline",
+      "quote": "Need a wedding catering quote for 80 guests in Midtown, Saturday evening.",
+      "reason": "The company does not offer wedding catering services.",
+      "confidence": 1.0,
+      "tokens_in": 430,
+      "tokens_out": 58,
+      "cost": 0.000274,
+      "seconds": 4.1
+    },
+    "r14": {
+      "decision": "calendar",
+      "quote": "smart thermostat keeps disconnecting from wifi. Can you replace it with something reliable? Happy to book a slot.",
+      "reason": "The customer is requesting a straightforward thermostat replacement, which is a service offered by the company, and is ready to book.",
+      "confidence": 0.98,
+      "tokens_in": 440,
+      "tokens_out": 78,
+      "cost": 0.00032700000000000003,
+      "seconds": 5.9
+    },
+    "r15": {
+      "decision": "manager",
+      "quote": "Did you get my earlier message about the two wall units?",
+      "reason": "The request involves an office with two wall units, indicating a commercial or multi-unit job that requires a manager's review.",
+      "confidence": 0.95,
+      "tokens_in": 435,
+      "tokens_out": 71,
+      "cost": 0.000308,
+      "seconds": 6.0
+    },
+    "r16": {
+      "decision": "decline",
+      "quote": "AC not cooling in Redwood Heights.",
+      "reason": "The customer's location, Redwood Heights, is outside the company's specified service areas.",
+      "confidence": 1.0,
+      "tokens_in": 430,
+      "tokens_out": 59,
+      "cost": 0.0002765,
+      "seconds": 4.8
+    },
+    "r17": {
+      "decision": "decline",
+      "quote": "Tiny leak under kitchen sink, maybe washer. Can you do it for $50?",
+      "reason": "The customer's requested price of $50 is below the company's minimum order of $75.",
+      "confidence": 1.0,
+      "tokens_in": 437,
+      "tokens_out": 74,
+      "cost": 0.00031610000000000004,
+      "seconds": 4.1
+    },
+    "r18": {
+      "decision": "calendar",
+      "quote": "Midtown loft AC dead. Please come Sunday at 7am before my flight. No other time works.",
+      "reason": "The customer requests a standard AC repair at a specific time outside working hours, which the company offers with applicable surcharges.",
+      "confidence": 0.9,
+      "tokens_in": 436,
+      "tokens_out": 78,
+      "cost": 0.0003258,
+      "seconds": 19.8
+    },
+    "r19": {
+      "decision": "decline",
+      "quote": "Buy followers and likes for your business page. Cheap packages, instant delivery. DM for price list.",
+      "reason": "This request is an unsolicited marketing message for social media services, which is not related to Bayline Comfort Co.'s field services.",
+      "confidence": 1.0,
+      "tokens_in": 437,
+      "tokens_out": 79,
+      "cost": 0.00032859999999999996,
+      "seconds": 3.2
+    },
+    "r20": {
+      "decision": "manager",
+      "quote": "AC in our Oakridge clinic waiting room is dripping on the floor and smelling moldy, patients noticed",
+      "reason": "The request involves a commercial property with a moldy smell and dripping water, indicating a complex job that requires manager attention.",
+      "confidence": 0.95,
+      "tokens_in": 453,
+      "tokens_out": 78,
+      "cost": 0.0003309,
+      "seconds": 3.8
+    },
+    "r21": {
+      "decision": "decline",
+      "quote": "Looking for someone to build a new company website and Google Ads setup.",
+      "reason": "The request is for website development and Google Ads, which are not services offered by Bayline Comfort Co.",
+      "confidence": 1.0,
+      "tokens_in": 431,
+      "tokens_out": 66,
+      "cost": 0.00029430000000000005,
+      "seconds": 3.8
+    },
+    "r22": {
+      "decision": "uncertain",
+      "quote": "okay nevermind",
+      "reason": "The voice note transcript provides no information about the customer's needs or the type of service requested.",
+      "confidence": 1.0,
+      "tokens_in": 431,
+      "tokens_out": 56,
+      "cost": 0.0002693,
+      "seconds": 3.2
+    },
+    "r23": {
+      "decision": "uncertain",
+      "quote": "idk if its the AC or just stuffy. maybe you can tell",
+      "reason": "The customer is unsure if the issue is related to the AC or just a stuffy apartment, making it difficult to categorize the service request.",
+      "confidence": 0.9,
+      "tokens_in": 437,
+      "tokens_out": 76,
+      "cost": 0.0003211,
+      "seconds": 17.8
+    },
+    "r24": {
+      "decision": "decline",
+      "quote": "Need duct cleaning at my place in Millfield.",
+      "reason": "The customer's location in Millfield is outside of the company's defined service area.",
+      "confidence": 1.0,
+      "tokens_in": 434,
+      "tokens_out": 60,
+      "cost": 0.0002802,
+      "seconds": 4.8
+    },
+    "r25": {
+      "decision": "decline",
+      "quote": "Only if you can do it for under $60 cash.",
+      "reason": "The customer's requested budget is below the company's minimum order amount.",
+      "confidence": 1.0,
+      "tokens_in": 436,
+      "tokens_out": 62,
+      "cost": 0.0002858,
+      "seconds": 3.6
+    },
+    "r26": {
+      "decision": "manager",
+      "quote": "fridge and AC both acting up. Can a tech come at 9pm tonight?",
+      "reason": "The request includes a service (fridge repair) not offered by the company, requiring a manager to clarify scope and potential partial service.",
+      "confidence": 0.9,
+      "tokens_in": 441,
+      "tokens_out": 77,
+      "cost": 0.0003248,
+      "seconds": 8.5
+    },
+    "r27": {
+      "decision": "newsletter",
+      "quote": "traveling until late October. Maybe put us on a list for then?",
+      "reason": "The customer is interested in services but is unavailable until late October and requests to be contacted then.",
+      "confidence": 0.98,
+      "tokens_in": 449,
+      "tokens_out": 67,
+      "cost": 0.0003022,
+      "seconds": 5.6
+    },
+    "r28": {
+      "decision": "calendar",
+      "quote": "still need that Lakeside annual AC service. Morning slots preferred.",
+      "reason": "The request is for a standard annual AC service, which is a clear and routine task suitable for direct scheduling.",
+      "confidence": 1.0,
+      "tokens_in": 429,
+      "tokens_out": 64,
+      "cost": 0.0002887,
+      "seconds": 4.0
+    },
+    "r29": {
+      "decision": "decline",
+      "quote": "Do you do dog walking in Midtown?",
+      "reason": "The requested service, dog walking, is not offered by Bayline Comfort Co.",
+      "confidence": 1.0,
+      "tokens_in": 428,
+      "tokens_out": 57,
+      "cost": 0.0002709,
+      "seconds": 3.8
+    },
+    "r30": {
+      "decision": "manager",
+      "quote": "Need full AC install quotes for vacant units 3B and 5A, plus a maintenance visit for the lobby system that keeps tripping.",
+      "reason": "The request involves multiple AC installations and a lobby system maintenance for a 12-unit building, indicating a complex, multi-unit commercial job requiring a manager's attention.",
+      "confidence": 0.98,
+      "tokens_in": 465,
+      "tokens_out": 97,
+      "cost": 0.000382,
+      "seconds": 5.8
+    },
+    "r31": {
+      "decision": "manager",
+      "quote": "AC install for a cafe in South Pier. Walk-in cooler also needs a look if you handle that.",
+      "reason": "The request is for a commercial AC installation and includes an inquiry about a walk-in cooler, which is an unclear service scope, requiring a manager's assessment.",
+      "confidence": 0.95,
+      "tokens_in": 437,
+      "tokens_out": 88,
+      "cost": 0.0003511,
+      "seconds": 7.4
+    },
+    "r32": {
+      "decision": "uncertain",
+      "quote": "Saturday at 8pm only window I have.",
+      "reason": "The customer requests service outside standard working hours with a specific time constraint, which may require human intervention to confirm surcharges or offer alternatives.",
+      "confidence": 0.7,
+      "tokens_in": 439,
+      "tokens_out": 69,
+      "cost": 0.0003042,
+      "seconds": 21.2
+    },
+    "r33": {
+      "decision": "decline",
+      "quote": "Partner with our marketing agency! We sell exclusive HVAC leads in your city. Reply YES for the media kit.",
+      "reason": "The request is a marketing solicitation for lead generation, not a service request from a customer.",
+      "confidence": 1.0,
+      "tokens_in": 439,
+      "tokens_out": 73,
+      "cost": 0.00031420000000000005,
+      "seconds": 3.6
+    }
+  }
+}

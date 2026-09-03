@@ -1,0 +1,23 @@
+{
+  "company": "Bayline Comfort Co.",
+  "title": "AC, small repairs, same-day triage",
+  "summary": "We install and service air conditioners and handle small plumbing and electrical fixes for homes and offices in Port Meridian. Inbound requests arrive from the website form, WhatsApp and Instagram Direct. Half are noise; a few are multi-thousand jobs. Cheap rules clear the obvious, the model ranks the rest, and a person only sees what still needs a human.",
+  "city": "Port Meridian",
+  "criteria": {
+    "service_area": ["Harbor District", "Midtown", "Lakeside", "Oakridge"],
+    "services": [
+      "ac_install",
+      "ac_repair",
+      "ac_service",
+      "duct_cleaning",
+      "thermostat",
+      "minor_plumbing",
+      "minor_electrical",
+      "appliance_hookup"
+    ],
+    "min_order_usd": 75,
+    "work_hours_start": 8,
+    "work_hours_end": 18,
+    "confidence_threshold": 0.7
+  }
+}

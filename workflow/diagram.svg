@@ -1,0 +1,117 @@
+<svg viewBox="0 0 2870 1276" xmlns="http://www.w3.org/2000/svg" font-family="Inter,system-ui,sans-serif" role="img" aria-label="Lead qualification workflow">
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8a93a0"/></marker></defs>
+<rect width="2870" height="1276" fill="#f7f5f0"/>
+<path d="M280,558.0 C295.0,558.0 295.0,558.0 310,558.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M500,558.0 C515.0,558.0 515.0,558.0 530,558.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M720,558.0 C735.0,558.0 735.0,558.0 750,558.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M940,558.0 C955.0,558.0 955.0,558.0 970,558.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1160,558.0 C1205.0,558.0 1205.0,738.0 1250,738.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1106.8" y="577.6" width="146.0" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1179.8" y="589.6" text-anchor="middle" font-size="12.5" fill="#5b6570">outside service area</text>
+<path d="M1160,558.0 C1205.0,558.0 1205.0,878.0 1250,878.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1108.3" y="650.0" width="166.4" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1191.5" y="662.0" text-anchor="middle" font-size="12.5" fill="#5b6570">service we do not offer</text>
+<path d="M1160,558.0 C1205.0,558.0 1205.0,1018.0 1250,1018.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1137.0" y="758.8" width="132.39999999999998" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1203.2" y="770.8" text-anchor="middle" font-size="12.5" fill="#5b6570">no request details</text>
+<path d="M1160,558.0 C1205.0,558.0 1205.0,1158.0 1250,1158.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1131.7" y="904.0" width="166.4" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1214.9" y="916.0" text-anchor="middle" font-size="12.5" fill="#5b6570">below minimum job value</text>
+<path d="M1160,558.0 C1205.0,558.0 1205.0,398.0 1250,398.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1160.3999999999999" y="419.6" width="132.39999999999998" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1226.6" y="431.6" text-anchor="middle" font-size="12.5" fill="#5b6570">passes cheap rules</text>
+<path d="M1440,738.0 C1465.0,738.0 1465.0,948.0 1490,948.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1440,878.0 C1465.0,878.0 1465.0,948.0 1490,948.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1440,1018.0 C1465.0,1018.0 1465.0,948.0 1490,948.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1440,1158.0 C1465.0,1158.0 1465.0,948.0 1490,948.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1680,948.0 C1695.0,948.0 1695.0,948.0 1710,948.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1900,948.0 C2025.0,948.0 2025.0,798.0 2150,798.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1440,398.0 C1455.0,398.0 1455.0,398.0 1470,398.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1660,398.0 C1675.0,398.0 1675.0,398.0 1690,398.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M1880,398.0 C1905.0,398.0 1905.0,278.0 1930,278.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1875.8" y="351.6" width="30.4" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1891.0" y="363.6" text-anchor="middle" font-size="12.5" fill="#5b6570">yes</text>
+<path d="M1880,398.0 C1905.0,398.0 1905.0,538.0 1930,538.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="1885.7" y="427.0" width="23.6" height="17" rx="4" fill="#f7f5f0"/>
+<text x="1897.5" y="439.0" text-anchor="middle" font-size="12.5" fill="#5b6570">no</text>
+<path d="M2120,278.0 C2135.0,278.0 2135.0,278.0 2150,278.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M2340,278.0 C2465.0,278.0 2465.0,118.0 2590,118.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="2339.0" y="222.8" width="112.0" height="17" rx="4" fill="#f7f5f0"/>
+<text x="2395.0" y="234.8" text-anchor="middle" font-size="12.5" fill="#5b6570">owner: Telegram</text>
+<path d="M2340,278.0 C2465.0,278.0 2465.0,258.0 2590,258.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="2364.7" y="251.0" width="125.6" height="17" rx="4" fill="#f7f5f0"/>
+<text x="2427.5" y="263.0" text-anchor="middle" font-size="12.5" fill="#5b6570">on call: WhatsApp</text>
+<path d="M2340,278.0 C2465.0,278.0 2465.0,398.0 2590,398.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="2410.8" y="315.6" width="98.39999999999999" height="17" rx="4" fill="#f7f5f0"/>
+<text x="2460.0" y="327.6" text-anchor="middle" font-size="12.5" fill="#5b6570">office: Slack</text>
+<path d="M2340,278.0 C2465.0,278.0 2465.0,538.0 2590,538.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="2422.9" y="416.6" width="139.2" height="17" rx="4" fill="#f7f5f0"/>
+<text x="2492.5" y="428.6" text-anchor="middle" font-size="12.5" fill="#5b6570">queue: email digest</text>
+<path d="M2120,538.0 C2135.0,538.0 2135.0,798.0 2150,798.0" fill="none" stroke="#8a93a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="90" y="530" width="190" height="56" rx="8" fill="#eaf0f7" stroke="#1f3a5f" stroke-width="2"/>
+<text x="104" y="554" font-size="13.5" font-weight="600" fill="#1b1f23">New request</text>
+<text x="104" y="572" font-size="12" fill="#5b6570">incoming request</text>
+<rect x="310" y="530" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="324" y="554" font-size="13.5" font-weight="600" fill="#1b1f23">Normalize request</text>
+<text x="324" y="572" font-size="12" fill="#5b6570">fields</text>
+<rect x="530" y="530" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="544" y="554" font-size="13.5" font-weight="600" fill="#1b1f23">Thresholds</text>
+<text x="544" y="572" font-size="12" fill="#5b6570">fields</text>
+<rect x="750" y="530" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="764" y="554" font-size="13.5" font-weight="600" fill="#1b1f23">Same person today?</text>
+<text x="764" y="572" font-size="12" fill="#5b6570">seen before?</text>
+<rect x="970" y="530" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="984" y="554" font-size="13.5" font-weight="600" fill="#1b1f23">Cheap rules</text>
+<text x="984" y="572" font-size="12" fill="#5b6570">branches</text>
+<rect x="1250" y="710" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="1264" y="734" font-size="13.5" font-weight="600" fill="#1b1f23">Reason: outside area</text>
+<text x="1264" y="752" font-size="12" fill="#5b6570">fields</text>
+<rect x="1250" y="850" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="1264" y="874" font-size="13.5" font-weight="600" fill="#1b1f23">Reason: not our service</text>
+<text x="1264" y="892" font-size="12" fill="#5b6570">fields</text>
+<rect x="1250" y="990" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="1264" y="1014" font-size="13.5" font-weight="600" fill="#1b1f23">Reason: no details</text>
+<text x="1264" y="1032" font-size="12" fill="#5b6570">fields</text>
+<rect x="1250" y="1130" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="1264" y="1154" font-size="13.5" font-weight="600" fill="#1b1f23">Reason: below minimum</text>
+<text x="1264" y="1172" font-size="12" fill="#5b6570">fields</text>
+<rect x="1490" y="920" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="1504" y="944" font-size="13.5" font-weight="600" fill="#1b1f23">Collect declined</text>
+<text x="1504" y="962" font-size="12" fill="#5b6570">collect</text>
+<rect x="1710" y="920" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="1724" y="944" font-size="13.5" font-weight="600" fill="#1b1f23">Polite reply</text>
+<text x="1724" y="962" font-size="12" fill="#5b6570">fields</text>
+<rect x="1250" y="370" width="190" height="56" rx="8" fill="#fbf1e2" stroke="#b4762b" stroke-width="2"/>
+<text x="1264" y="394" font-size="13.5" font-weight="600" fill="#1b1f23">AI: intent and urgency</text>
+<text x="1264" y="412" font-size="12" fill="#5b6570">HTTP</text>
+<rect x="1470" y="370" width="190" height="56" rx="8" fill="#fbf1e2" stroke="#b4762b" stroke-width="2"/>
+<text x="1484" y="394" font-size="13.5" font-weight="600" fill="#1b1f23">Quote must be in the text</text>
+<text x="1484" y="412" font-size="12" fill="#5b6570">code</text>
+<rect x="1690" y="370" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="1704" y="394" font-size="13.5" font-weight="600" fill="#1b1f23">Confident enough?</text>
+<text x="1704" y="412" font-size="12" fill="#5b6570">condition</text>
+<rect x="1930" y="250" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="1944" y="274" font-size="13.5" font-weight="600" fill="#1b1f23">Create hot lead in CRM</text>
+<text x="1944" y="292" font-size="12" fill="#5b6570">HTTP</text>
+<rect x="2150" y="250" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="2164" y="274" font-size="13.5" font-weight="600" fill="#1b1f23">Notify: channel by role</text>
+<text x="2164" y="292" font-size="12" fill="#5b6570">branches</text>
+<rect x="2590" y="90" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="2604" y="114" font-size="13.5" font-weight="600" fill="#1b1f23">Telegram</text>
+<text x="2604" y="132" font-size="12" fill="#5b6570">handoff</text>
+<rect x="2590" y="230" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="2604" y="254" font-size="13.5" font-weight="600" fill="#1b1f23">WhatsApp</text>
+<text x="2604" y="272" font-size="12" fill="#5b6570">handoff</text>
+<rect x="2590" y="370" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="2604" y="394" font-size="13.5" font-weight="600" fill="#1b1f23">Slack</text>
+<text x="2604" y="412" font-size="12" fill="#5b6570">handoff</text>
+<rect x="2590" y="510" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="2604" y="534" font-size="13.5" font-weight="600" fill="#1b1f23">Email digest</text>
+<text x="2604" y="552" font-size="12" fill="#5b6570">handoff</text>
+<rect x="1930" y="510" width="190" height="56" rx="8" fill="#e9f2ec" stroke="#2f6b45" stroke-width="1.2"/>
+<text x="1944" y="534" font-size="13.5" font-weight="600" fill="#1b1f23">Needs a human</text>
+<text x="1944" y="552" font-size="12" fill="#5b6570">handoff</text>
+<rect x="2150" y="770" width="190" height="56" rx="8" fill="#ffffff" stroke="#c9cfd8" stroke-width="1.2"/>
+<text x="2164" y="794" font-size="13.5" font-weight="600" fill="#1b1f23">Decision log</text>
+<text x="2164" y="812" font-size="12" fill="#5b6570">HTTP</text>
+</svg>

@@ -1,0 +1,946 @@
+{
+  "name": "lead-qualification-demo",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "incoming-request",
+        "options": {
+          "allowedOrigins": "*"
+        },
+        "responseMode": "onReceived",
+        "responseData": "{ \"received\": true }"
+      },
+      "id": "c77a8a93-8319-4ce5-bcba-e9d116fa066e",
+      "name": "New request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "15094a8a-5bda-4d69-b0f0-172f6d9ac7bb",
+              "name": "channel",
+              "value": "={{ $json.body.channel }}",
+              "type": "string"
+            },
+            {
+              "id": "03266f75-132e-4b41-8a6e-7e926df04d06",
+              "name": "name",
+              "value": "={{ $json.body.name }}",
+              "type": "string"
+            },
+            {
+              "id": "62ed5276-1bec-4c99-a0f9-0b16a51813b5",
+              "name": "contact_key",
+              "value": "={{ $json.body.contact_key }}",
+              "type": "string"
+            },
+            {
+              "id": "e647e638-2be3-4117-abae-f13a8caca65d",
+              "name": "text",
+              "value": "={{ $json.body.text }}",
+              "type": "string"
+            },
+            {
+              "id": "5a8ae4a4-ee8f-4f70-8f21-9c820bfe71ed",
+              "name": "area",
+              "value": "={{ $json.body.area }}",
+              "type": "string"
+            },
+            {
+              "id": "c710c755-75d7-49c1-8c6b-b044bccf7b4e",
+              "name": "service",
+              "value": "={{ $json.body.service }}",
+              "type": "string"
+            },
+            {
+              "id": "8412f0d0-cc09-4dc6-8229-aed0c8b5581c",
+              "name": "job_value",
+              "value": "={{ $json.body.job_value }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "id": "0dbf36db-8813-4034-8a5f-a862061b828d",
+      "name": "Normalize request",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        60,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6b5b8ca9-11e3-4734-b972-3e87d83592c8",
+              "name": "service_areas",
+              "value": "={{ ['downtown','north side','harbour','airport'] }}",
+              "type": "array"
+            },
+            {
+              "id": "aabaf9a6-80b8-4c58-8cc0-55e6161ad54c",
+              "name": "services_offered",
+              "value": "={{ ['install','service','repair','maintenance'] }}",
+              "type": "array"
+            },
+            {
+              "id": "f3811ec9-1a9e-4692-96db-ef6ff9d8d7cf",
+              "name": "minimum_job_value",
+              "value": 180,
+              "type": "number"
+            },
+            {
+              "id": "131cf284-1a1d-48e6-bb8c-6d286a12f350",
+              "name": "confidence_threshold",
+              "value": 0.7,
+              "type": "number"
+            },
+            {
+              "id": "f9680ac0-ecc9-4991-926f-b72dc0a23444",
+              "name": "crm_webhook_url",
+              "value": "https://example.com/crm/hook",
+              "type": "string"
+            },
+            {
+              "id": "3a488ff9-fea2-4b51-b0ca-fd1d9bd9e5d0",
+              "name": "decision_log_url",
+              "value": "https://example.com/log",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "d75a6ba0-c17f-4196-85ec-2c853f75a35c",
+      "name": "Thresholds",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        280,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "removeItemsSeenInPreviousExecutions",
+        "logic": "removeItemsWithAlreadySeenKeyValues",
+        "dedupeValue": "={{ $json.contact_key }}",
+        "options": {}
+      },
+      "id": "c5c178ae-f056-43d4-b912-cdba91053f10",
+      "name": "Same person today?",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        500,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "eb6d4103-fc6a-4918-a00a-05cbc5591a69",
+                    "leftValue": "={{ !$('Thresholds').first().json.service_areas.includes($json.area) }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "outside service area"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4e432775-70bb-4770-906a-92fc6173226a",
+                    "leftValue": "={{ !$('Thresholds').first().json.services_offered.includes($json.service) }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "service we do not offer"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "432f8fc6-49b0-473f-a3b3-f360d40d70d2",
+                    "leftValue": "={{ $json.text.length }}",
+                    "rightValue": 12,
+                    "operator": {
+                      "type": "number",
+                      "operation": "lt"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "no request details"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2c2139a5-9474-4ca1-a98a-8d21e135fdb8",
+                    "leftValue": "={{ $json.job_value < $('Thresholds').first().json.minimum_job_value }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "below minimum job value"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "passes cheap rules"
+        }
+      },
+      "id": "f4d258b4-7598-4003-b559-ee47cb9127ff",
+      "name": "Cheap rules",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        720,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5a1862b2-3a85-4536-a353-c56e654d028a",
+              "name": "rule",
+              "value": "outside service area",
+              "type": "string"
+            },
+            {
+              "id": "8ec8cb8d-da1c-445f-83a6-c97e5204b365",
+              "name": "reply",
+              "value": "We only cover the metro area right now - sorry we cannot take this one.",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "51b81fdf-0792-416a-ad2c-697db455fb84",
+      "name": "Reason: outside area",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1000,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6655b55d-edf2-4aff-a0b2-eb6448b11495",
+              "name": "rule",
+              "value": "service we do not offer",
+              "type": "string"
+            },
+            {
+              "id": "77c685f1-ab32-4ddf-a68e-1e0e964ac11d",
+              "name": "reply",
+              "value": "This is outside what we do. We install and service air conditioning.",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "e8fa6d59-c914-4da5-95b5-2cf557a926cd",
+      "name": "Reason: not our service",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1000,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dbf9aa45-9db9-4515-9d15-5c6d54b09375",
+              "name": "rule",
+              "value": "no request details",
+              "type": "string"
+            },
+            {
+              "id": "20fa28a7-db41-433a-b4de-0220f8eb87bc",
+              "name": "reply",
+              "value": "Happy to help - could you tell us what needs doing and where?",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "9d6342e8-be65-4665-90ad-18d59465bd71",
+      "name": "Reason: no details",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1000,
+        920
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0fbd143e-55e5-492c-bb75-98af619fe53f",
+              "name": "rule",
+              "value": "below minimum job value",
+              "type": "string"
+            },
+            {
+              "id": "7a8e75ee-29d8-458c-83e5-a8423b80234f",
+              "name": "reply",
+              "value": "That job is below our call-out minimum. Here is what we can do instead.",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "a500fffd-3276-471d-9e13-051bb5934abe",
+      "name": "Reason: below minimum",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1000,
+        1060
+      ]
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "id": "f9ac6d23-e44e-41ed-8147-16e01aa6742d",
+      "name": "Collect declined",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1240,
+        850
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3299a496-8ccf-4737-9c58-fe3205a3f92a",
+              "name": "outcome",
+              "value": "declined with a reason",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "34adcc48-49d0-4c6e-a5a1-5b0a9da3d019",
+      "name": "Polite reply",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1460,
+        850
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'inclusionai/ling-3.0-flash-fin:free', temperature: 0, messages: [{ role: 'user', content: \"You screen incoming service requests for a heating and air conditioning company.\\nDecide three things and answer with JSON only:\\n{\\\"intent\\\":\\\"quote|booking|support|other\\\",\\\"urgency\\\":\\\"today|this_week|flexible\\\",\\\"fits_service\\\":true|false,\\\"confidence\\\":0.0-1.0,\\\"quote\\\":\\\"exact sentence copied from the request\\\"}\\nThe quote MUST be copied character for character from the request text. If nothing in the text supports your decision, return an empty quote.\\n\\nRequest:\\n\" + $json.text }] }) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "9ef76fca-dc78-4eb7-ad9f-c02ffaf2fcb3",
+      "name": "AI: intent and urgency",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1000,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL",
+          "name": "your LLM provider"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Цитата модели обязана быть подстрокой исходного текста.\n// Не нашлась - решение спорное и уходит человеку, а не клиенту.\nfor (const item of $input.all()) {\n  let verdict = {};\n  try {\n    const raw = item.json.choices?.[0]?.message?.content ?? '{}';\n    verdict = JSON.parse(raw.replace(/^```json\\n?|```$/g, '').trim());\n  } catch (e) {\n    verdict = { confidence: 0, quote: '' };\n  }\n  const text = $('Normalize request').first().json.text || '';\n  const quote = (verdict.quote || '').trim();\n  const grounded = quote.length > 0 && text.includes(quote);\n\n  item.json = {\n    ...$('Normalize request').first().json,\n    intent: verdict.intent ?? 'other',\n    urgency: verdict.urgency ?? 'flexible',\n    fits_service: verdict.fits_service ?? false,\n    quote,\n    grounded,\n    // Цитата не подтвердилась - уверенность обнуляется, что бы модель ни написала.\n    confidence: grounded ? Number(verdict.confidence ?? 0) : 0,\n  };\n}\nreturn $input.all();\n"
+      },
+      "id": "f6a18ab9-c736-4f8e-bb9f-d3e8af1218c8",
+      "name": "Quote must be in the text",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1220,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b628114e-2a53-4da5-8394-678b60321122",
+              "leftValue": "={{ $json.confidence }}",
+              "rightValue": "={{ $('Thresholds').first().json.confidence_threshold }}",
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "bea19d77-679b-4c7c-9933-8f9773bb2291",
+      "name": "Confident enough?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1440,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Thresholds').first().json.crm_webhook_url }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $json.name, channel: $json.channel, service: $json.service, urgency: $json.urgency, value: $json.job_value, evidence: $json.quote }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "8b532589-6baa-4914-a448-ef2b828a248e",
+      "name": "Create hot lead in CRM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1680,
+        180
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cb7abbb3-fcfd-4266-9e20-a2db4b455bb8",
+                    "leftValue": "={{ $('Quote must be in the text').item.json.job_value >= 2000 }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "owner: Telegram"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "93ea14c0-303a-46ac-adac-5a4352c4b4e0",
+                    "leftValue": "={{ $('Quote must be in the text').item.json.urgency === 'today' }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "on call: WhatsApp"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ea788d36-67dd-4737-9dbd-0136c7a13948",
+                    "leftValue": "={{ $('Quote must be in the text').item.json.channel === 'form' }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "office: Slack"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "queue: email digest"
+        }
+      },
+      "id": "5e8080a7-ae40-4e01-a806-36fbd5500fe7",
+      "name": "Notify: channel by role",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1900,
+        180
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "fbec6c16-2e1e-4ab1-aa1c-d6819fdf943c",
+      "name": "Telegram",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        20
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "2beeb011-efab-4bdb-9136-cd8841cf93c8",
+      "name": "WhatsApp",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        160
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "9dff130b-95f6-4064-976d-5e0aee8fa9d6",
+      "name": "Slack",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "02d83ddb-d895-4f8a-ac6f-feef77f9a5cb",
+      "name": "Email digest",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        440
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "23e52d1f-96dc-44d7-a890-85bf61ee4b27",
+      "name": "Needs a human",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Thresholds').first().json.decision_log_url }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ contact: $json.contact_key, rule: $json.rule || null, outcome: $json.outcome || 'passed to a person', quote: $json.quote || null }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "6f8c2937-6d0c-4264-ab47-88bc64d82e55",
+      "name": "Decision log",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1900,
+        700
+      ],
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "connections": {
+    "New request": {
+      "main": [
+        [
+          {
+            "node": "Normalize request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize request": {
+      "main": [
+        [
+          {
+            "node": "Thresholds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Thresholds": {
+      "main": [
+        [
+          {
+            "node": "Same person today?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Same person today?": {
+      "main": [
+        [
+          {
+            "node": "Cheap rules",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cheap rules": {
+      "main": [
+        [
+          {
+            "node": "Reason: outside area",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reason: not our service",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reason: no details",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reason: below minimum",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI: intent and urgency",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reason: outside area": {
+      "main": [
+        [
+          {
+            "node": "Collect declined",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reason: not our service": {
+      "main": [
+        [
+          {
+            "node": "Collect declined",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Reason: no details": {
+      "main": [
+        [
+          {
+            "node": "Collect declined",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Reason: below minimum": {
+      "main": [
+        [
+          {
+            "node": "Collect declined",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Collect declined": {
+      "main": [
+        [
+          {
+            "node": "Polite reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Polite reply": {
+      "main": [
+        [
+          {
+            "node": "Decision log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: intent and urgency": {
+      "main": [
+        [
+          {
+            "node": "Quote must be in the text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quote must be in the text": {
+      "main": [
+        [
+          {
+            "node": "Confident enough?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confident enough?": {
+      "main": [
+        [
+          {
+            "node": "Create hot lead in CRM",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Needs a human",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create hot lead in CRM": {
+      "main": [
+        [
+          {
+            "node": "Notify: channel by role",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify: channel by role": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Email digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Needs a human": {
+      "main": [
+        [
+          {
+            "node": "Decision log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}
