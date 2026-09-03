@@ -3,3 +3,8 @@ __pycache__/
 .venv/
 .env
 .DS_Store
+
+# Working notes, not part of the published case
+CLAUDE.md
+docs/MAP.md
+docs/DECISIONS.md
