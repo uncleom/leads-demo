@@ -165,9 +165,14 @@
   .try:hover{border-color:var(--steel);background:#fff}
   .areas{border:0;padding:0;margin:0;min-width:0}
   .areas legend{padding:0;font-size:.9rem;color:var(--muted)}
-  .area-boxes{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
-  .area{display:flex;align-items:center;gap:6px;font-size:.95rem;color:var(--ink);cursor:pointer}
-  .area input{accent-color:var(--steel)}
+  .area-boxes{display:flex;flex-direction:column;align-items:stretch;gap:2px;margin-top:8px;
+    max-height:184px;overflow-y:auto;background:var(--card);
+    border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+  .area-boxes .area{display:flex;flex-flow:row nowrap;align-items:center;
+    justify-content:flex-start;width:100%;gap:8px;font-size:.95rem;color:var(--ink);
+    cursor:pointer;padding:4px 2px;line-height:1.3;text-align:left}
+  .area-boxes .area input{accent-color:var(--steel);flex:0 0 auto;margin:0;width:auto}
+  .area-boxes .area span{flex:1 1 auto;min-width:0}
   .delta{font-style:normal;font-family:var(--mono);font-size:.85rem;color:var(--amber)}
   .pack summary{cursor:pointer;padding:12px 2px;font-weight:500;color:var(--steel)}
   .pack-row{padding:14px 0;border-bottom:1px solid var(--line)}
@@ -457,7 +462,7 @@ function criteriaFromForm(){
 function fillForm(c){
   const on = new Set(c.service_area||[]);
   $("area_boxes").innerHTML = ALL_AREAS.map(a =>
-    `<label class="area"><input type="checkbox" value="${esc(a)}"${on.has(a)?" checked":""}> ${esc(a)}</label>`
+    `<label class="area"><input type="checkbox" value="${esc(a)}"${on.has(a)?" checked":""}><span>${esc(a)}</span></label>`
   ).join("");
   $("min_order_usd").value = c.min_order_usd;
   $("work_hours_start").value = c.work_hours_start;
