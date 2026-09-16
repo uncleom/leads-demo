@@ -75,7 +75,7 @@ def main() -> None:
     )
     t0 = time.time()
     resp = client.models.generate_content(
-        model="gemini-2.5-flash", contents=prompt, config=cfg
+        model="gemini-3.5-flash-lite", contents=prompt, config=cfg
     )
     print("seconds", round(time.time() - t0, 1), "chars", len(resp.text or ""))
     data = json.loads(resp.text)

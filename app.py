@@ -61,7 +61,7 @@ _EN_TENS = {20: "twenty", 30: "thirty", 40: "forty"}
 # recorded run and never calls a model, so a deployment needs neither.
 ACCOUNTS = pathlib.Path(os.environ.get("VERTEX_ACCOUNTS_FILE", "")) if os.environ.get("VERTEX_ACCOUNTS_FILE") else pathlib.Path.home() / ".config/lead-demo/accounts.json"
 ENV_FILE = pathlib.Path(os.environ.get("ENV_FILE", "")) if os.environ.get("ENV_FILE") else pathlib.Path.home() / ".config/lead-demo/.env"
-CHAT_MODEL = os.environ.get("CHAT_MODEL", "gemini-2.5-flash")
+CHAT_MODEL = os.environ.get("CHAT_MODEL", "gemini-3.5-flash-lite")
 # Gemini 2.5 Flash list price, USD per token. Source: ai.google.dev/gemini-api/docs/pricing,
 # checked 2026-08-23 ($0.30 per 1M input, $2.50 per 1M output).
 PRICE_IN, PRICE_OUT = 0.30 / 1e6, 2.50 / 1e6
@@ -424,7 +424,7 @@ def _vertex_accounts() -> list[dict]:
         return [{
             "name": "env",
             "project": os.environ["VERTEX_PROJECT"],
-            "location": os.environ.get("VERTEX_LOCATION", "us-central1"),
+            "location": os.environ.get("VERTEX_LOCATION", "global"),
             "adc_b64": os.environ["GOOGLE_ADC_B64"],
         }]
     if not ACCOUNTS.exists():
@@ -464,7 +464,7 @@ def _build_client(today: str):
             c = genai.Client(
                 vertexai=True,
                 project=acc["project"],
-                location=acc.get("location", "us-central1"),
+                location=acc.get("location", "global"),
             )
             _client_cache.clear()
             _client_cache[today] = c
